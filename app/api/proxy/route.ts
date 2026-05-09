@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
         // Next.js (App Router) expects an Iterator or Stream for the body
         // axios `data` is a Node.js Readable stream. We can pass it to NextResponse (mostly works in Node runtime)
         const headers = new Headers();
-        headers.set('Content-Type', contentType);
+        headers.set('Content-Type', String(contentType || 'application/octet-stream'));
         headers.set('Content-Disposition', `attachment; filename="${safeFilename}"`);
         headers.set('Cache-Control', 'public, max-age=31536000, immutable'); // Long cache for immutable assets
 
