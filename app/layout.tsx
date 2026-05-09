@@ -3,16 +3,16 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "BeDownloader | Behance Asset Downloader",
-    template: "%s | BeDownloader"
+    default: "100 Tools",
+    template: "%s | 100 Tools"
   },
   description:
-    "Download high-resolution images and assets from public Behance projects. Built for designers and creative teams.",
+    "Building 100 AI tools in public, one tool at a time.",
   metadataBase: new URL("https://bedownloader.vercel.app"),
   openGraph: {
-    title: "BeDownloader",
+    title: "100 Tools",
     description:
-      "Download high-resolution images and assets from public Behance projects.",
+      "Building 100 AI tools in public, one tool at a time.",
     url: "https://bedownloader.vercel.app",
     type: "website"
   },

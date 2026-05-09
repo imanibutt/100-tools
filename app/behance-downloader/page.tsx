@@ -92,7 +92,7 @@ export default function BehanceDownloaderPage() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <Link href="/" className="btn btn-secondary">Open App</Link>
+            <Link href="/bedownloader" className="btn btn-secondary">Open App</Link>
             <a
               href="https://github.com/imanibutt/Bedownloader"
               target="_blank"
@@ -115,7 +115,7 @@ export default function BehanceDownloaderPage() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link href="/" className="btn btn-primary">Try it now</Link>
+            <Link href="/bedownloader" className="btn btn-primary">Try it now</Link>
             <a
               href="#how-it-works"
               className="btn btn-secondary"

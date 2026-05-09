@@ -1,133 +1,77 @@
-'use client';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
-import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-function isLikelyBehanceUrl(input: string) {
-  try {
-    const u = new URL(input);
-    return u.hostname.includes('behance.net');
-  } catch {
-    return false;
+export const metadata: Metadata = {
+  title: {
+    absolute: '100 Tools'
+  },
+  description: 'Building 100 AI tools in public, one tool at a time.',
+  alternates: {
+    canonical: '/'
+  },
+  openGraph: {
+    title: '100 Tools',
+    description: 'Building 100 AI tools in public, one tool at a time.',
+    url: '/',
+    type: 'website'
   }
-}
+};
 
 export default function Home() {
-  const [url, setUrl] = useState('');
-  const router = useRouter();
-
-  const hint = useMemo(() => {
-    const v = url.trim();
-    if (!v) return 'Press Enter to extract';
-    if (isLikelyBehanceUrl(v)) return 'Looks like a Behance URL — ready to extract';
-    return 'Paste a public Behance project URL';
-  }, [url]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const v = url.trim();
-    if (v) router.push(`/extract?url=${encodeURIComponent(v)}`);
-  };
-
   return (
-    <main className="container section-padding fade-in">
-      <div className="hero-wrap">
-        <nav className="brandbar">
-          <img src="/logo.png?v=2" alt="BeDownloader Logo" className="brandmark" />
-          <span className="brandname">BeDownloader</span>
-          <span className="pill">Dribbble — Coming soon</span>
-        </nav>
+    <main className="container tools-home fade-in">
+      <nav className="tools-nav" aria-label="100 Tools">
+        <Link href="/" className="tools-brand">
+          <span className="tools-brandmark">100</span>
+          <span>100 Tools</span>
+        </Link>
+        <a
+          href="https://github.com/imanibutt/Bedownloader"
+          target="_blank"
+          rel="noreferrer"
+          className="btn btn-secondary"
+        >
+          GitHub
+        </a>
+      </nav>
 
-        <section className="hero">
-          <h1 className="hero-title">Download Behance assets in original quality</h1>
-          <p className="hero-subtitle">
-            Paste a public Behance project URL and extract images (and videos) in seconds — no login.
-          </p>
+      <section className="tools-hero" aria-labelledby="home-title">
+        <p className="tools-kicker">Build in public</p>
+        <h1 id="home-title" className="tools-title">100 Tools</h1>
+        <p className="tools-subtitle">Building 100 AI tools in public, one tool at a time.</p>
+      </section>
 
-          <form onSubmit={handleSearch} className="input-group" aria-label="Extract assets">
-            <input
-              type="url"
-              className="input-main"
-              placeholder="Paste a Behance project URL (e.g., https://www.behance.net/gallery/…)"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellCheck={false}
-              inputMode="url"
-            />
-            <button type="submit" className="input-submit" aria-label="Extract assets">
-              Extract assets
-              <span className="btn-icon-inline" aria-hidden>
-                →
-              </span>
-            </button>
-          </form>
+      <section className="tools-section" aria-labelledby="tools-built-title">
+        <div className="tools-section-head">
+          <p className="tools-kicker">01 / 100</p>
+          <h2 id="tools-built-title">Tools Built So Far</h2>
+        </div>
 
-          <div className="hero-hint text-secondary">{hint}</div>
-
-          <div className="trustline">
-            <span className="trustitem">
-              <span className="dot dot-green" /> Public projects only
-            </span>
-            <span className="trustitem">
-              <span className="dot dot-green" /> Original resolution
-            </span>
-            <span className="trustitem">
-              <span className="dot dot-blue" /> No watermarking
-            </span>
+        <article className="tool-card card">
+          <div className="tool-card-count">Tool #1</div>
+          <div className="tool-card-body">
+            <h3>BeDownloader</h3>
+            <p className="text-secondary">
+              Download public Behance project assets in original quality.
+            </p>
           </div>
+          <Link href="/bedownloader" className="btn btn-primary">
+            Open Tool
+          </Link>
+        </article>
+      </section>
 
-          <div className="how">
-            <div className="how-item">
-              <div className="how-num">1</div>
-              <div>
-                <div className="how-title">Paste URL</div>
-                <div className="how-desc text-secondary">Drop a public Behance project link.</div>
-              </div>
-            </div>
-            <div className="how-item">
-              <div className="how-num">2</div>
-              <div>
-                <div className="how-title">Extract</div>
-                <div className="how-desc text-secondary">We parse assets instantly.</div>
-              </div>
-            </div>
-            <div className="how-item">
-              <div className="how-num">3</div>
-              <div>
-                <div className="how-title">Download originals</div>
-                <div className="how-desc text-secondary">Save files in their best quality.</div>
-              </div>
-            </div>
+      <footer className="footer" style={{ marginTop: '120px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '40px' }}>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="text-secondary text-sm">
+            © {new Date().getFullYear()} 100 Tools. Building in public.
           </div>
-
-          <div className="features">
-            <div className="feature card">
-              <div className="feature-title">Original quality</div>
-              <div className="feature-desc text-secondary">
-                Grab the highest available resolution from the project — perfect for reference and archival.
-              </div>
-            </div>
-            <div className="feature card">
-              <div className="feature-title">Fast + clean</div>
-              <div className="feature-desc text-secondary">
-                One input, one click. Built for designers who want results, not friction.
-              </div>
-            </div>
-            <div className="feature card">
-              <div className="feature-title">Safe by design</div>
-              <div className="feature-desc text-secondary">
-                Publicly accessible content only. Clear boundaries, predictable behavior.
-              </div>
-            </div>
+          <div className="flex gap-6 text-sm">
+            <Link href="/terms" className="text-secondary hover:text-white transition-colors">Terms</Link>
+            <Link href="/privacy" className="text-secondary hover:text-white transition-colors">Privacy</Link>
+            <Link href="https://github.com/imanibutt/Bedownloader" target="_blank" className="text-secondary hover:text-white transition-colors">Source</Link>
           </div>
-        </section>
-      </div>
-
-      <footer className="footer">
-        <div className="footer-top" />
-        <p className="text-secondary footer-copy">&copy; {new Date().getFullYear()} BeDownloader. Made for designers.</p>
+        </div>
       </footer>
     </main>
   );

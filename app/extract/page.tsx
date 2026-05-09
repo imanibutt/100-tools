@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { downloadZipFromApi } from '@/lib/downloadZip';
 import { downloadFileFromApi } from '@/lib/downloadFile';
 
@@ -29,7 +30,7 @@ function ExtractionContent() {
 
     useEffect(() => {
         if (!targetUrl) {
-            router.push('/');
+            router.push('/bedownloader');
             return;
         }
 
@@ -167,10 +168,10 @@ function ExtractionContent() {
         return (
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
-                    <button className="brandbutton" onClick={() => router.push('/')} aria-label="Back to home">
-                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
-                        <span className="brandname">BeDownloader</span>
-                    </button>
+                    <Link href="/" className="brandbutton no-underline">
+                        <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
+                        <span className="brandname">100 Tools</span>
+                    </Link>
                 </nav>
 
                 <div className="loading-card" role="status" aria-live="polite">
@@ -200,10 +201,10 @@ function ExtractionContent() {
         return (
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
-                    <button className="brandbutton" onClick={() => router.push('/')} aria-label="Back to home">
-                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
-                        <span className="brandname">BeDownloader</span>
-                    </button>
+                    <Link href="/" className="brandbutton no-underline">
+                        <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
+                        <span className="brandname">100 Tools</span>
+                    </Link>
                 </nav>
 
                 <div className="error-wrap">
@@ -211,7 +212,7 @@ function ExtractionContent() {
                     <p className="text-secondary error-subtitle">
                         {typeof error === 'string' ? error : (error as any).message || 'An unexpected error occurred'}
                     </p>
-                    <button className="btn btn-primary" onClick={() => router.push('/')}>Try another URL</button>
+                    <button className="btn btn-primary" onClick={() => router.push('/bedownloader')}>Try another URL</button>
                 </div>
             </div>
         );
@@ -220,12 +221,12 @@ function ExtractionContent() {
     return (
         <main className="container section-padding fade-in">
             <nav className="topbar">
-                <button className="brandbutton" onClick={() => router.push('/')} aria-label="Back to home">
-                    <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
-                    <span className="brandname">BeDownloader</span>
-                </button>
+                <Link href="/" className="brandbutton no-underline">
+                    <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
+                    <span className="brandname">100 Tools</span>
+                </Link>
 
-                <button className="btn btn-secondary" onClick={() => router.push('/')}>New extraction</button>
+                <button className="btn btn-secondary" onClick={() => router.push('/bedownloader')}>New extraction</button>
             </nav>
 
             <div className="summary">
@@ -298,7 +299,7 @@ function ExtractionContent() {
                 <div className="empty">
                     <div className="empty-title">No assets found</div>
                     <div className="text-secondary empty-sub">Try a different public Behance project URL.</div>
-                    <button className="btn btn-primary" onClick={() => router.push('/')}>New extraction</button>
+                    <button className="btn btn-primary" onClick={() => router.push('/bedownloader')}>New extraction</button>
                 </div>
             ) : (
                 <div className="asset-grid">
