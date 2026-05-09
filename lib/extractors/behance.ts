@@ -16,65 +16,49 @@ export class BehanceExtractor implements Extractor {
 
     async extract(url: string): Promise<MediaItem[]> {
         try {
-            console.log('--- Behance Handshake Starting ---');
-            const sessionHandshake = await axios.get('https://www.behance.net', {
+            console.log('--- Behance Extraction (Fetch Strategy) ---');
+            
+            // Use native fetch for a different TLS fingerprint and more modern behavior
+            const response = await fetch(url, {
                 headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    'Sec-Ch-Ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Sec-Ch-Ua': '"Chromium";v="125", "Google Chrome";v="125", "Not-A.Brand";v="99"',
                     'Sec-Ch-Ua-Mobile': '?0',
-                    'Sec-Ch-Ua-Platform': '"Windows"',
+                    'Sec-Ch-Ua-Platform': '"macOS"',
                     'Sec-Fetch-Dest': 'document',
                     'Sec-Fetch-Mode': 'navigate',
                     'Sec-Fetch-Site': 'none',
                     'Sec-Fetch-User': '?1',
                     'Upgrade-Insecure-Requests': '1'
                 },
-                timeout: 10000
-            }).catch((err) => {
-                console.error('Handshake failed:', err.message);
-                return null;
+                next: { revalidate: 0 } // Ensure we don't hit Next.js cache
             });
 
-            const cookies = sessionHandshake?.headers['set-cookie']?.map(c => c.split(';')[0]).join('; ') || '';
-            console.log('Cookies obtained:', cookies ? 'Yes' : 'No');
-            const bcClientId = Math.random().toString(36).substring(2, 15);
+            if (!response.ok) {
+                const errorText = await response.text().catch(() => '');
+                console.error(`Behance extraction failed with status ${response.status}`);
+                if (response.status === 403) {
+                    throw new Error('Behance blocked this request (403). Try again in a few minutes or use a different URL.');
+                }
+                throw new Error(`Request failed with status code ${response.status}`);
+            }
 
-            // 2. Perform extraction with "Search Engine" referer spoofing
-            const response = await axios.get(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                    'Accept-Language': 'en-US,en;q=0.9',
-                    'Cookie': cookies,
-                    'Referer': `https://www.google.com/`,
-                    'X-BC-Client-Id': bcClientId,
-                    'Sec-Ch-Ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-                    'Sec-Ch-Ua-Mobile': '?0',
-                    'Sec-Ch-Ua-Platform': '"Windows"',
-                    'Sec-Fetch-Dest': 'document',
-                    'Sec-Fetch-Mode': 'navigate',
-                    'Sec-Fetch-Site': 'cross-origin',
-                    'Sec-Fetch-User': '?1',
-                    'Upgrade-Insecure-Requests': '1'
-                },
-                timeout: 20000
-            });
-
-            const $ = cheerio.load(response.data);
+            const html = await response.text();
+            const $ = cheerio.load(html);
             console.log('Page title:', $('title').text());
 
             // Look for the project data script
             const scriptId = 'beconfig-store_state';
             let scriptContent = $(`#${scriptId}`).html();
-            console.log('Script tag found:', !!scriptContent);
-
+            
             let projectData: any = null;
 
             if (scriptContent) {
                 try {
-                    // Sometimes it's wrapped in window.__INITIAL_STATE__ or similar
                     const jsonMatch = scriptContent.match(/\{.*\}/s);
                     if (jsonMatch) {
                         projectData = JSON.parse(jsonMatch[0]);
