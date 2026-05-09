@@ -38,7 +38,7 @@ export default function BeDownloaderClient() {
             <img src="/logo.png?v=2" alt="BeDownloader Logo" className="brandmark" />
             <span className="brandname">BeDownloader</span>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <span className="pill">Tool #1</span>
             <Link href="/" className="text-secondary text-sm hover:text-white transition-colors">100 Tools Hub</Link>
           </div>

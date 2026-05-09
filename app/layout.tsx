@@ -34,7 +34,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>
-        {children}
+        <div className="bg-mesh" />
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   );
