@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'edge';
 
 import { getExtractor } from '@/lib/extractors';
 import { validateBehanceUrl, isUrlAllowed } from '@/lib/security';
