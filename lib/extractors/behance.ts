@@ -16,38 +16,55 @@ export class BehanceExtractor implements Extractor {
 
     async extract(url: string): Promise<MediaItem[]> {
         try {
-            // Use axios with a browser-like user agent
+            console.log('--- Behance Handshake Starting ---');
+            const sessionHandshake = await axios.get('https://www.behance.net', {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+                },
+                timeout: 10000
+            }).catch((err) => {
+                console.error('Handshake failed:', err.message);
+                return null;
+            });
+
+            const cookies = sessionHandshake?.headers['set-cookie']?.map(c => c.split(';')[0]).join('; ') || '';
+            console.log('Cookies obtained:', cookies ? 'Yes' : 'No');
+            const bcClientId = Math.random().toString(36).substring(2, 15);
+
+            // 2. Perform extraction with "Search Engine" referer spoofing
             const response = await axios.get(url, {
                 headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Referer': 'https://www.behance.net/',
-                    'Sec-Ch-Ua': '"Not(A:Brand";v="24", "Chromium";v="122", "Google Chrome";v="122"',
-                    'Sec-Ch-Ua-Mobile': '?0',
-                    'Sec-Ch-Ua-Platform': '"Windows"',
+                    'Cookie': cookies,
+                    'Referer': `https://www.google.com/search?q=${encodeURIComponent(url)}`,
+                    'X-BC-Client-Id': bcClientId,
                     'Sec-Fetch-Dest': 'document',
                     'Sec-Fetch-Mode': 'navigate',
-                    'Sec-Fetch-Site': 'same-origin',
-                    'Sec-Fetch-User': '?1',
-                    'Upgrade-Insecure-Requests': '1',
-                    'Cache-Control': 'max-age=0'
+                    'Sec-Fetch-Site': 'cross-origin',
+                    'Upgrade-Insecure-Requests': '1'
                 },
                 timeout: 20000
             });
 
             const $ = cheerio.load(response.data);
+            console.log('Page title:', $('title').text());
 
             // Look for the project data script
             const scriptId = 'beconfig-store_state';
-            const scriptContent = $(`#${scriptId}`).html();
+            let scriptContent = $(`#${scriptId}`).html();
+            console.log('Script tag found:', !!scriptContent);
 
             let projectData: any = null;
 
             if (scriptContent) {
                 try {
-                    projectData = JSON.parse(scriptContent);
+                    // Sometimes it's wrapped in window.__INITIAL_STATE__ or similar
+                    const jsonMatch = scriptContent.match(/\{.*\}/s);
+                    if (jsonMatch) {
+                        projectData = JSON.parse(jsonMatch[0]);
+                    }
                 } catch (e) {
                     console.error('Error parsing Behance script content:', e);
                 }
