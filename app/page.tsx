@@ -28,7 +28,7 @@ export default function Home() {
       <div className="tools-content">
         <nav className="tools-nav" aria-label="100 Tools">
           <Link href="/" className="tools-brand">
-            <span className="tools-brandmark">100</span>
+            <img src="/logo-transparent.png" alt="100 Tools Logo" className="tools-brandmark" />
             <span>100 Tools</span>
           </Link>
           <a
@@ -113,7 +113,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
             <div>
               <Link href="/" className="tools-brand" style={{ fontSize: '16px' }}>
-                <span className="tools-brandmark" style={{ width: '24px', height: '24px', fontSize: '10px' }}>100</span>
+                <img src="/logo-transparent.png" alt="100 Tools Logo" className="tools-brandmark" style={{ width: '24px', height: '24px', background: 'transparent', boxShadow: 'none' }} />
                 <span>100 Tools</span>
               </Link>
               <p className="text-secondary text-sm mt-2">© {new Date().getFullYear()} Building in public.</p>
