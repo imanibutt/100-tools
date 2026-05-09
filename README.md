@@ -1,117 +1,57 @@
-# BeDownloader
+# 100 Tools
 
-BeDownloader is a professional-grade asset extraction tool designed for creators and designers. It allows you to quickly download high-resolution media from Behance, YouTube, Instagram, and TikTok.
+Building 100 AI and utility tools in public, one tool at a time.
 
-## Features
+## Project Structure
 
-- **Multi-Platform Support**: Extract media from Behance, YouTube, Instagram, and TikTok.
-- **High Quality**: Always attempts to fetch the highest resolution available (Original/4K).
-- **Format Support**: Handles Images (JPG, PNG, WebP), Animations (GIF), and Videos (MP4).
-- **ZIP Downloads**: Real-time streamed ZIP generation for downloading multiple assets at once.
-- **Smart Proxy**: Proxies downloads to bypass CORS and enforce proper file naming.
-- **Security First**: Built-in SSRF protection and domain allowlisting.
+This repository is home to a collection of useful web tools. The first tool in the collection is **BeDownloader**.
+
+### Tools List
+
+1. **BeDownloader** (#1): A professional-grade asset extraction tool for Behance projects.
+
+## Tool #1: BeDownloader
+
+BeDownloader allows you to quickly download high-resolution media from any public Behance project.
+
+### Features
+- **Original Quality**: Fetches the highest resolution available (source files).
+- **ZIP Downloads**: Streamed ZIP generation for bulk downloads.
+- **Stealth Extraction**: Uses advanced headers and fallback reader strategies to bypass 403 blocks.
+- **Smart Proxy**: Handles CORS and file naming.
 
 ## Setup
 
 ### Requirements
 - Node.js 18+
-- [Playwright](https://playwright.dev/) (auto-installed with dependencies)
 
 ### Installation
 
-1. Navigate to the web app directory:
-   ```bash
-   cd public-asset-web
-   ```
-
-2. Install dependencies:
+1. Install dependencies:
    ```bash
    npm install
-   npx playwright install chromium
    ```
 
-3. Run the development server:
+2. Run the development server:
    ```bash
    npm run dev
    ```
 
    The app will be available at [http://localhost:3000](http://localhost:3000).
 
-## Configuration
-
-Copy `.env.example` to `.env.local` to configure the application.
-
-```bash
-# Cache Configuration
-CACHE_TTL=600  # 10 minutes
-```
-
 ## API Documentation
 
 ### 1. Extract Assets
 Parses a URL and returns a standardized list of media items.
-
-**Endpoint:** `GET /api/extract`
-
-**Query Parameters:**
-- `url` (required): The URL of the project or post.
-
-**Response:**
-```json
-{
-  "items": [
-    {
-      "id": "item-123",
-      "title": "Mountain Peak",
-      "type": "image",
-      "ext": "jpg",
-      "thumbUrl": "https://...",
-      "downloadUrl": "https://..."
-    }
-  ],
-  "meta": {
-    "sourceUrl": "...",
-    "assetCount": 1,
-    "platform": "Behance",
-    "extractedAt": "2024-01-01T12:00:00Z",
-    "elapsedMs": 120
-  }
-}
-```
+**Endpoint:** `GET /api/extract?url=...`
 
 ### 2. Download Proxy
-Fetches a single file to bypass CORS or enforce a filename.
-
-**Endpoint:** `GET /api/proxy`
-
-**Query Parameters:**
-- `url` (required): The direct URL of the asset.
-- `filename` (optional): Desired filename.
+Fetches a single file to bypass CORS.
+**Endpoint:** `GET /api/proxy?url=...&filename=...`
 
 ### 3. Download ZIP
-Creates a ZIP archive of multiple assets on the fly using Node.js streams.
-
+Creates a ZIP archive of multiple assets.
 **Endpoint:** `POST /api/download-zip`
 
-**Body (JSON):**
-```json
-{
-  "filename": "my-assets.zip",
-  "assets": [
-    {
-      "url": "https://...",
-      "filename": "image-01.jpg"
-    }
-  ]
-}
-```
-
-## Troubleshooting
-
-- **Module Not Found**: If you see import errors, ensure you've run `npm install` and that `lib/extractors/index.ts` only imports existing files.
-- **403 Forbidden**: Some assets (especially YouTube/Instagram) may be protected or require fresh headers. The proxy handles basic cases.
-- **Workspace Warning**: If Next.js warns about multiple lockfiles, ensure the root `package-lock.json` is removed and keep only the one in `public-asset-web/`.
-
 ## Compliance & Privacy
-
 This tool is intended for personal backup and educational purposes. Always respect the copyright of creators. It does not bypass paywalls or access private content.
