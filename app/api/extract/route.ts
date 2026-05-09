@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 import { getExtractor } from '@/lib/extractors';
-import { validateBehanceUrl, isUrlAllowed } from '@/lib/security';
 import { extractionCache as cache } from '@/lib/cache';
 
 // Removed local cache definition in favor of shared singleton
@@ -22,22 +22,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: { code: 'MISSING_URL', message: 'URL parameter is required' } }, { status: 400 });
     }
 
-    // 2. Security Check 
-    if (!isUrlAllowed(url)) {
-        // We might want to allow extraction from any URL if GenericExtractor is used, 
-        // but for safety let's check basic validity or just proceed if we trust extractors.
-        // Actually, for Generic extractor we might want to allow any URL. 
-        // But `isUrlAllowed` checks the DOWNLOAD domains usually. 
-        // For extraction input URL, we should probably allow anything that is http/https and not local.
-    }
-    // Updated Logic: We rely on the extractors to handle valid URLs or fail safe. 
-    // We just block local/private IPs which is done by isUrlAllowed inside security but that checks domains list.
-    // Let's make a new check for input URL that is looser than the allowlist (which is for CDN downloads).
-
-    // For now, let's just skip the domain check here because we want to support Generic fallback 
-    // or just rely on getExtractor returning a valid one. 
-    // But we SHOULD block localhost input.
-
+    // 2. Security Check
+    // Extraction URLs are validated by the selected extractor, but still block local targets.
     try {
         const parsed = new URL(url);
         if (parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1') {

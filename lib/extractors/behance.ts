@@ -1,6 +1,44 @@
 import * as cheerio from 'cheerio';
-import axios from 'axios';
 import { Extractor, MediaItem } from './types';
+
+const READER_BASE_URL = 'https://r.jina.ai/';
+
+function getBehanceProjectId(url: string): string | null {
+    try {
+        const parsed = new URL(url);
+        const parts = parsed.pathname.split('/').filter(Boolean);
+        const galleryIndex = parts.findIndex((part) => part === 'gallery');
+        const id = galleryIndex >= 0 ? parts[galleryIndex + 1] : null;
+        return id && /^\d+$/.test(id) ? id : null;
+    } catch {
+        return null;
+    }
+}
+
+function cleanAssetUrl(url: string) {
+    return url
+        .replace(/&amp;/g, '&')
+        .replace(/[)\],.]+$/g, '')
+        .split('?')[0];
+}
+
+function getOriginalProjectModuleUrl(url: string) {
+    return cleanAssetUrl(url).replace(/\/project_modules\/[^/]+\//i, '/project_modules/source/');
+}
+
+function getExtensionFromUrl(url: string) {
+    const ext = cleanAssetUrl(url).split('.').pop()?.toLowerCase();
+    if (!ext) return 'jpg';
+    return ext.length <= 5 ? ext : 'jpg';
+}
+
+function titleFromAlt(alt: string | undefined, fallback: string) {
+    if (!alt) return fallback;
+    return alt
+        .replace(/^Image\s*\d+\s*:\s*/i, '')
+        .replace(/\s+/g, ' ')
+        .trim() || fallback;
+}
 
 export class BehanceExtractor implements Extractor {
     platform = 'Behance';
@@ -12,6 +50,68 @@ export class BehanceExtractor implements Extractor {
         } catch {
             return false;
         }
+    }
+
+    private async extractFromReader(url: string): Promise<MediaItem[]> {
+        const projectId = getBehanceProjectId(url);
+        const readerUrl = `${READER_BASE_URL}${url}`;
+
+        const response = await fetch(readerUrl, {
+            headers: {
+                'Accept': 'text/plain',
+                'User-Agent': 'Mozilla/5.0 (compatible; BeDownloader/1.0; +https://bedownloader.vercel.app/)'
+            },
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Reader fallback failed with status code ${response.status}`);
+        }
+
+        const markdown = await response.text();
+        const projectSection = markdown.split(/\nJoin Behance\b/i)[0] || markdown;
+        const seen = new Set<string>();
+        const results: MediaItem[] = [];
+
+        const addUrl = (rawUrl: string, alt?: string) => {
+            const thumbUrl = cleanAssetUrl(rawUrl);
+            const downloadUrl = getOriginalProjectModuleUrl(thumbUrl);
+
+            if (projectId && !downloadUrl.includes(projectId)) return;
+            if (!/\/project_modules\//i.test(downloadUrl)) return;
+            if (seen.has(downloadUrl)) return;
+
+            seen.add(downloadUrl);
+            const ext = getExtensionFromUrl(downloadUrl);
+            const isGif = ext === 'gif' || downloadUrl.toLowerCase().includes('.gif');
+
+            results.push({
+                id: `be-reader-${results.length + 1}`,
+                title: titleFromAlt(alt, isGif ? `Animation ${results.length + 1}` : `Image ${results.length + 1}`),
+                type: isGif ? 'animation' : 'image',
+                ext,
+                thumbUrl,
+                downloadUrl,
+                variants: thumbUrl !== downloadUrl ? [
+                    { resolution: 'Original', downloadUrl },
+                    { resolution: 'Preview', downloadUrl: thumbUrl }
+                ] : undefined
+            });
+        };
+
+        const markdownImageRegex = /!\[([^\]]*)\]\((https:\/\/mir-s3-cdn-cf\.behance\.net\/project_modules\/[^\s)]+)\)/g;
+        let imageMatch: RegExpExecArray | null;
+        while ((imageMatch = markdownImageRegex.exec(projectSection)) !== null) {
+            addUrl(imageMatch[2], imageMatch[1]);
+        }
+
+        const urlRegex = /https:\/\/mir-s3-cdn-cf\.behance\.net\/project_modules\/[^\s)"'<]+/g;
+        let urlMatch: RegExpExecArray | null;
+        while ((urlMatch = urlRegex.exec(projectSection)) !== null) {
+            addUrl(urlMatch[0]);
+        }
+
+        return results;
     }
 
     async extract(url: string): Promise<MediaItem[]> {
@@ -103,6 +203,8 @@ export class BehanceExtractor implements Extractor {
                         lastError = new Error('Behance detected bot behavior (soft block).');
                         continue;
                     }
+                    const fallbackItems = await this.extractFromReader(url);
+                    if (fallbackItems.length > 0) return fallbackItems;
                     return [];
                 }
 
@@ -240,6 +342,11 @@ export class BehanceExtractor implements Extractor {
                     }
                 });
 
+                if (results.length > 0) return results;
+
+                const fallbackItems = await this.extractFromReader(url);
+                if (fallbackItems.length > 0) return fallbackItems;
+
                 return results;
 
             } catch (error: any) {
@@ -247,6 +354,13 @@ export class BehanceExtractor implements Extractor {
                 lastError = error;
                 // Continue to next attempt if it's a 403 or network error
             }
+        }
+
+        try {
+            const fallbackItems = await this.extractFromReader(url);
+            if (fallbackItems.length > 0) return fallbackItems;
+        } catch (fallbackError: any) {
+            console.error('Reader fallback failed:', fallbackError?.message || fallbackError);
         }
 
         throw lastError || new Error('All extraction attempts failed.');
