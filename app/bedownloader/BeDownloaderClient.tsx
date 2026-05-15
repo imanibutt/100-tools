@@ -31,14 +31,14 @@ export default function BeDownloaderClient() {
   };
 
   return (
-    <main className="container section-padding fade-in">
+    <main className="container section-padding fade-in bedownloader-page">
       <div className="hero-wrap">
         <nav className="brandbar">
-          <Link href="/" className="flex items-center gap-2 no-underline">
+          <Link href="/" className="brand-home no-underline">
             <img src="/logo.png?v=2" alt="BeDownloader Logo" className="brandmark" />
             <span className="brandname">BeDownloader</span>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="brand-actions">
             <span className="pill">Tool #1</span>
             <Link href="/" className="text-secondary text-sm hover:text-white transition-colors">100 Tools Hub</Link>
           </div>

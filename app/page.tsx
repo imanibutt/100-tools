@@ -50,8 +50,8 @@ export default function Home() {
               We are building 100 high-performance utility tools for designers and developers. 
               Vetted, open-source, and free forever.
             </p>
-            <Link href="/bedownloader" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
-              Explore First Tool
+            <Link href="#collection" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
+              Explore All Tools
             </Link>
           </div>
           
@@ -62,7 +62,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="tools-section">
+        <section className="tools-section" id="collection">
           <h2 className="section-title">The Collection</h2>
           <div className="tools-grid" ref={cardsRef}>
             <Link href="/bedownloader" className="tool-card">
@@ -77,6 +77,23 @@ export default function Home() {
               </p>
               <div className="tool-link">
                 Open Application <span>→</span>
+              </div>
+            </Link>
+
+            <Link href="/brutal-reminder" className="tool-card">
+              <div className="tool-card-head">
+                <div className="tool-icon" aria-hidden="true">
+                  <img src="/brutal-reminder-mark-transparent.svg" alt="" style={{ width: '30px', height: '30px' }} />
+                </div>
+                <div className="tool-card-tag">Tool #2</div>
+              </div>
+              <h3>Brutal Reminder</h3>
+              <p>
+                Turn one big goal into one small daily action. Get privacy-first
+                accountability emails that ask if you actually did it.
+              </p>
+              <div className="tool-link">
+                Open Tool <span>→</span>
               </div>
             </Link>
 

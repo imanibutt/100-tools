@@ -168,9 +168,9 @@ function ExtractionContent() {
         return (
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
-                    <Link href="/" className="brandbutton no-underline">
-                        <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
-                        <span className="brandname">100 Tools</span>
+                    <Link href="/bedownloader" className="brandbutton no-underline">
+                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                        <span className="brandname">BeDownloader</span>
                     </Link>
                 </nav>
 
@@ -201,9 +201,9 @@ function ExtractionContent() {
         return (
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
-                    <Link href="/" className="brandbutton no-underline">
-                        <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
-                        <span className="brandname">100 Tools</span>
+                    <Link href="/bedownloader" className="brandbutton no-underline">
+                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                        <span className="brandname">BeDownloader</span>
                     </Link>
                 </nav>
 
@@ -221,9 +221,9 @@ function ExtractionContent() {
     return (
         <main className="container section-padding fade-in">
             <nav className="topbar">
-                <Link href="/" className="brandbutton no-underline">
-                    <img src="/logo.png?v=2" alt="100 Tools" className="brandmark" />
-                    <span className="brandname">100 Tools</span>
+                <Link href="/bedownloader" className="brandbutton no-underline">
+                    <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                    <span className="brandname">BeDownloader</span>
                 </Link>
 
                 <button className="btn btn-secondary" onClick={() => router.push('/bedownloader')}>New extraction</button>

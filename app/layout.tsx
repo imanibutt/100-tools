@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   },
   description:
     "Building 100 AI tools in public, one tool at a time.",
-  metadataBase: new URL("https://bedownloader.vercel.app"),
+  metadataBase: new URL("https://100tools.pk"),
   openGraph: {
     title: "100 Tools",
     description:
       "Building 100 AI tools in public, one tool at a time.",
-    url: "https://bedownloader.vercel.app",
+    url: "https://100tools.pk",
     type: "website"
   },
   alternates: {
@@ -31,7 +31,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>
         <div className="bg-mesh" />

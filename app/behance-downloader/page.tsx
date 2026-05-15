@@ -83,7 +83,7 @@ export default function BehanceDownloaderPage() {
       />
 
       <div className="container py-10 px-6">
-        <div className="flex items-center justify-between gap-4">
+        <div className="seo-header">
           <Link href="/" className="brand-link">
             <div className="icon-container-sm">
               <img src="/logo.png?v=2" alt="Logo" className="w-6 h-6 object-contain" />
@@ -91,7 +91,7 @@ export default function BehanceDownloaderPage() {
             <span className="text-xl font-bold tracking-tight">BeDownloader</span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="seo-actions">
             <Link href="/bedownloader" className="btn btn-secondary">Open App</Link>
             <a
               href="https://github.com/imanibutt/Bedownloader"

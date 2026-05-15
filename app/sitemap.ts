@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://bedownloader.vercel.app';
+  const base = 'https://100tools.pk';
   const now = new Date();
 
   return [
@@ -22,6 +22,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.6
+    },
+    {
+      url: `${base}/brutal-reminder`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9
+    },
+    {
+      url: `${base}/brutal-reminder/privacy`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3
     },
     {
       url: `${base}/install`,
