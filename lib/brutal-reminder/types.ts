@@ -18,6 +18,7 @@ export type ReminderRecord = {
   streak_count: number;
   last_sent_at: string | null;
   next_due_at: string | null;
+  product_updates_opt_in: boolean;
   unsubscribe_token_hash: string;
   pause_token_hash: string;
   consented_at: string;

@@ -67,7 +67,9 @@ export default function Home() {
           <div className="tools-grid" ref={cardsRef}>
             <Link href="/bedownloader" className="tool-card">
               <div className="tool-card-head">
-                <div className="tool-icon">📦</div>
+                <div className="tool-icon" aria-hidden="true">
+                  <img src="/logo.svg" alt="" style={{ width: '34px', height: '34px' }} />
+                </div>
                 <div className="tool-card-tag">Released</div>
               </div>
               <h3>BeDownloader</h3>
@@ -83,7 +85,7 @@ export default function Home() {
             <Link href="/brutal-reminder" className="tool-card">
               <div className="tool-card-head">
                 <div className="tool-icon" aria-hidden="true">
-                  <img src="/brutal-reminder-mark-transparent.svg" alt="" style={{ width: '30px', height: '30px' }} />
+                  <img src="/symbol%20mark%202.png" alt="" style={{ width: '30px', height: '30px' }} />
                 </div>
                 <div className="tool-card-tag">Tool #2</div>
               </div>

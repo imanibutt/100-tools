@@ -14,6 +14,9 @@ type SuccessState = {
   firstStep: string;
   cadence: ReminderCadence;
   reminderTime: string;
+  email: string;
+  welcomeEmailStatus: "sent" | "skipped" | "failed";
+  message: string;
 };
 
 export default function BrutalReminderClient() {
@@ -48,7 +51,7 @@ export default function BrutalReminderClient() {
   const body = getPreviewText(tone, goal, resolvedFirstStep, excuse);
 
   function scrollToForm() {
-    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    formRef.current?.scrollIntoView({ block: "start" });
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -86,6 +89,9 @@ export default function BrutalReminderClient() {
         firstStep: payload.firstStep,
         cadence: payload.cadence,
         reminderTime: payload.reminderTime,
+        email,
+        welcomeEmailStatus: payload.welcomeEmailStatus || "skipped",
+        message: payload.message || "Reminder active.",
       });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Something went wrong.");
@@ -95,11 +101,11 @@ export default function BrutalReminderClient() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} brutalReminderPage`}>
       <div className={styles.shell}>
         <nav className={styles.nav} aria-label="Brutal Reminder">
           <Link href="/" className={styles.brand}>
-            <img src="/brutal-reminder-logo-dark.svg" alt="Brutal Reminder" className={styles.brandLogo} />
+            <img src="/logo%20white.png" alt="Brutal Reminder" className={styles.brandLogo} />
           </Link>
           <Link href="/" className={styles.backLink}>Back to 100 Tools</Link>
         </nav>
@@ -159,11 +165,52 @@ export default function BrutalReminderClient() {
 
             {success ? (
               <div className={styles.success} role="status">
-                <h3>Your brutal reminder is active.</h3>
-                <p>We&apos;ll keep you focused on the small step, not just the big dream.</p>
-                <dl>
+                <div className={styles.successHeader}>
+                  <span className={styles.successPill}>Live</span>
+                  <h3>
+                    {success.welcomeEmailStatus === "sent"
+                      ? "Reminder active. Welcome email sent."
+                      : success.welcomeEmailStatus === "skipped"
+                        ? "Reminder active. Welcome email skipped."
+                        : "Reminder active, but the welcome email failed."}
+                  </h3>
+                  <p>
+                    {success.welcomeEmailStatus === "sent"
+                      ? `Check ${success.email}. Your scheduled reminder will arrive at the time you selected.`
+                      : success.welcomeEmailStatus === "skipped"
+                        ? success.message
+                      : success.message}
+                  </p>
+                </div>
+
+                <div
+                  className={
+                    success.welcomeEmailStatus === "sent"
+                      ? styles.successEmailSent
+                      : success.welcomeEmailStatus === "skipped"
+                        ? styles.successEmailSkipped
+                        : styles.successEmailWarning
+                  }
+                >
+                  <strong>
+                    {success.welcomeEmailStatus === "sent"
+                      ? "Welcome email sent now"
+                      : success.welcomeEmailStatus === "skipped"
+                        ? "Welcome email skipped"
+                        : "Welcome email failed"}
+                  </strong>
+                  <span>
+                    {success.welcomeEmailStatus === "sent"
+                      ? "No action is needed from that email. The real task email comes at your selected reminder time."
+                      : success.welcomeEmailStatus === "skipped"
+                        ? "The reminder was saved, but the welcome email was not sent because delivery is not configured."
+                        : "The reminder was saved, but the welcome email could not be sent."}
+                  </span>
+                </div>
+
+                <dl className={styles.successDetails}>
                   <div><dt>Goal</dt><dd>{success.goal}</dd></div>
-                  <div><dt>Today&apos;s first step</dt><dd>{success.firstStep}</dd></div>
+                  <div><dt>Do this first</dt><dd>{success.firstStep}</dd></div>
                   <div><dt>Reminder schedule</dt><dd>{formatSchedule(success.cadence, success.reminderTime)}</dd></div>
                 </dl>
                 <Link href="/" className={styles.outlineButton}>Back to 100 Tools</Link>
@@ -245,6 +292,8 @@ export default function BrutalReminderClient() {
                 <p className={styles.finePrint}>Privacy-first: we only store what is needed to send your reminders. Your goals are not public, not sold, and not used for advertising.</p>
 
                 {error ? <div className={styles.error}>{error}</div> : null}
+
+                {isSubmitting ? <p className={styles.submitHint}>Saving your reminder and sending the welcome email now.</p> : null}
 
                 <button className={styles.submitButton} type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Activating..." : "Activate Reminder"}

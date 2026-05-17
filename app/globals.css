@@ -59,6 +59,11 @@ body::after {
   z-index: -1;
 }
 
+body:has(.brutalReminderPage)::before,
+body:has(.brutalReminderPage)::after {
+  display: none;
+}
+
 h1,
 h2,
 h3,

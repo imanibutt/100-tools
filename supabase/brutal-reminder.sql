@@ -15,6 +15,7 @@ create table if not exists reminders (
   streak_count integer not null default 0,
   last_sent_at timestamptz,
   next_due_at timestamptz,
+  product_updates_opt_in boolean not null default false,
   unsubscribe_token_hash text not null,
   pause_token_hash text not null,
   consented_at timestamptz not null,
@@ -65,12 +66,27 @@ alter table deliveries enable row level security;
 alter table checkins enable row level security;
 alter table suppressions enable row level security;
 
+grant usage on schema public to service_role;
+grant all on table reminders to service_role;
+grant all on table deliveries to service_role;
+grant all on table checkins to service_role;
+grant all on table suppressions to service_role;
+
 drop policy if exists "No public reminders access" on reminders;
 drop policy if exists "No public deliveries access" on deliveries;
 drop policy if exists "No public checkins access" on checkins;
 drop policy if exists "No public suppressions access" on suppressions;
+drop policy if exists "Service role reminders access" on reminders;
+drop policy if exists "Service role deliveries access" on deliveries;
+drop policy if exists "Service role checkins access" on checkins;
+drop policy if exists "Service role suppressions access" on suppressions;
 
 create policy "No public reminders access" on reminders for all using (false) with check (false);
 create policy "No public deliveries access" on deliveries for all using (false) with check (false);
 create policy "No public checkins access" on checkins for all using (false) with check (false);
 create policy "No public suppressions access" on suppressions for all using (false) with check (false);
+
+create policy "Service role reminders access" on reminders for all to service_role using (true) with check (true);
+create policy "Service role deliveries access" on deliveries for all to service_role using (true) with check (true);
+create policy "Service role checkins access" on checkins for all to service_role using (true) with check (true);
+create policy "Service role suppressions access" on suppressions for all to service_role using (true) with check (true);

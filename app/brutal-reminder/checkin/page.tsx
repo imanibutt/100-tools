@@ -12,6 +12,12 @@ const copy: Record<CheckinResponse, string> = {
   snoozed: "Okay. You bought time, not escape. We'll remind you again later.",
 };
 
+const titles: Record<CheckinResponse, string> = {
+  done: "Done recorded.",
+  not_yet: "Not yet recorded.",
+  snoozed: "Snoozed for 3 hours.",
+};
+
 function isResponse(value: string | undefined): value is CheckinResponse {
   return value === "done" || value === "not_yet" || value === "snoozed";
 }
@@ -36,8 +42,8 @@ export default async function CheckinPage({
     <main className={styles.resultPage}>
       <section className={styles.resultCard}>
         <p className={styles.kicker}>TODAY&apos;S MOVE</p>
-        <h1>Did you do the step?</h1>
-        <p>No speeches. Just answer honestly.</p>
+        <h1>{result?.ok && response ? titles[response] : "Did you do the step?"}</h1>
+        <p>{result?.ok && response ? "Your check-in was saved." : "No speeches. Just answer honestly."}</p>
 
         {result?.ok && response ? <p>{copy[response]}</p> : null}
         {result && !result.ok ? <p>{result.message}</p> : null}

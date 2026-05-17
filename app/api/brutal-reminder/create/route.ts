@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { generateFirstStep } from "@/lib/brutal-reminder/content";
 import { getSupabaseAdmin } from "@/lib/brutal-reminder/db";
+import { sendWelcomeEmail } from "@/lib/brutal-reminder/email";
 import { createToken, hashToken } from "@/lib/brutal-reminder/tokens";
 import { calculateNextDueAt } from "@/lib/brutal-reminder/time";
 import type { CreateReminderInput, ReminderCadence, ReminderTone } from "@/lib/brutal-reminder/types";
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
   const timezone = clean(body.timezone, 80) || "UTC";
   const tone = clean(body.tone) as ReminderTone;
   const email = clean(body.email, 254).toLowerCase();
+  const productUpdates = body.productUpdates === true;
 
   if (!goal) {
     return NextResponse.json({ error: "Add the goal that actually matters." }, { status: 400 });
@@ -73,6 +75,7 @@ export async function POST(request: Request) {
   try {
     const pauseToken = createToken();
     const unsubscribeToken = createToken();
+    const now = new Date();
     const nextDueAt = calculateNextDueAt(cadence, timezone, reminderTime);
     const supabase = getSupabaseAdmin();
 
@@ -90,9 +93,10 @@ export async function POST(request: Request) {
         preferred_local_time: reminderTime,
         status: "active",
         next_due_at: nextDueAt.toISOString(),
+        product_updates_opt_in: productUpdates,
         unsubscribe_token_hash: hashToken(unsubscribeToken),
         pause_token_hash: hashToken(pauseToken),
-        consented_at: new Date().toISOString(),
+        consented_at: now.toISOString(),
         consent_version: consentVersion,
       })
       .select("id")
@@ -102,6 +106,45 @@ export async function POST(request: Request) {
       throw new Error(error?.message || "Reminder could not be saved.");
     }
 
+    let welcomeEmailStatus: "sent" | "skipped" | "failed" = "skipped";
+    let welcomeEmailId: string | null = null;
+    let welcomeEmailError: string | null = null;
+
+    try {
+      const sent = await sendWelcomeEmail(
+        {
+          email,
+          goal,
+          first_step: firstStep,
+        },
+        {
+          pause: pauseToken,
+          unsubscribe: unsubscribeToken,
+        },
+      );
+
+      welcomeEmailStatus = sent.skipped ? "skipped" : "sent";
+      welcomeEmailId = sent.id;
+    } catch (emailError) {
+      welcomeEmailStatus = "failed";
+      welcomeEmailError = emailError instanceof Error ? emailError.message : "Welcome email could not be sent.";
+    }
+
+    await supabase.from("deliveries").insert({
+      reminder_id: data.id,
+      kind: "welcome",
+      scheduled_for: now.toISOString(),
+      sent_at: welcomeEmailStatus === "sent" ? now.toISOString() : null,
+      resend_message_id: welcomeEmailId,
+      provider_status:
+        welcomeEmailStatus === "sent"
+          ? "sent"
+          : welcomeEmailStatus === "skipped"
+            ? "skipped_missing_resend_key"
+            : "failed",
+      failure_reason: welcomeEmailError,
+    });
+
     return NextResponse.json({
       ok: true,
       goal,
@@ -109,7 +152,13 @@ export async function POST(request: Request) {
       cadence,
       reminderTime,
       nextDueAt: nextDueAt.toISOString(),
-      message: process.env.RESEND_API_KEY ? "Reminder active." : "Reminder active. Add RESEND_API_KEY to send emails.",
+      welcomeEmailStatus,
+      message:
+        welcomeEmailStatus === "sent"
+          ? "Reminder active. Welcome email sent."
+          : welcomeEmailStatus === "failed"
+            ? "Reminder active, but the welcome email could not be sent."
+            : "Reminder active. Add RESEND_API_KEY to send emails.",
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not activate the reminder.";
