@@ -31,7 +31,10 @@ function isTime(value: string) {
 }
 
 function isMissingProductUpdatesColumn(message: string) {
-  return message.includes("product_updates_opt_in") && message.includes("does not exist");
+  return (
+    message.includes("product_updates_opt_in") &&
+    (message.includes("does not exist") || message.includes("schema cache"))
+  );
 }
 
 export async function POST(request: Request) {
