@@ -30,6 +30,10 @@ function isTime(value: string) {
   return /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
 }
 
+function isMissingProductUpdatesColumn(message: string) {
+  return message.includes("product_updates_opt_in") && message.includes("does not exist");
+}
+
 export async function POST(request: Request) {
   let body: CreateReminderInput;
 
@@ -79,28 +83,33 @@ export async function POST(request: Request) {
     const nextDueAt = calculateNextDueAt(cadence, timezone, reminderTime);
     const supabase = getSupabaseAdmin();
 
-    const { data, error } = await supabase
-      .from("reminders")
-      .insert({
-        email,
-        goal,
-        why_it_matters: whyItMatters || null,
-        excuse: excuse || null,
-        first_step: firstStep,
-        tone,
-        cadence,
-        timezone,
-        preferred_local_time: reminderTime,
-        status: "active",
-        next_due_at: nextDueAt.toISOString(),
-        product_updates_opt_in: productUpdates,
-        unsubscribe_token_hash: hashToken(unsubscribeToken),
-        pause_token_hash: hashToken(pauseToken),
-        consented_at: now.toISOString(),
-        consent_version: consentVersion,
-      })
-      .select("id")
-      .single();
+    const reminderInsert = {
+      email,
+      goal,
+      why_it_matters: whyItMatters || null,
+      excuse: excuse || null,
+      first_step: firstStep,
+      tone,
+      cadence,
+      timezone,
+      preferred_local_time: reminderTime,
+      status: "active",
+      next_due_at: nextDueAt.toISOString(),
+      product_updates_opt_in: productUpdates,
+      unsubscribe_token_hash: hashToken(unsubscribeToken),
+      pause_token_hash: hashToken(pauseToken),
+      consented_at: now.toISOString(),
+      consent_version: consentVersion,
+    };
+
+    let insertResult = await supabase.from("reminders").insert(reminderInsert).select("id").single();
+
+    if (insertResult.error && isMissingProductUpdatesColumn(insertResult.error.message)) {
+      const { product_updates_opt_in: _ignored, ...legacyInsert } = reminderInsert;
+      insertResult = await supabase.from("reminders").insert(legacyInsert).select("id").single();
+    }
+
+    const { data, error } = insertResult;
 
     if (error || !data) {
       throw new Error(error?.message || "Reminder could not be saved.");
