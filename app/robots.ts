@@ -1,13 +1,15 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = 'https://100tools.pk';
+  const base = getSiteUrl();
 
   return {
     rules: {
-      userAgent: '*',
-      allow: '/'
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/"],
     },
-    sitemap: `${base}/sitemap.xml`
+    sitemap: `${base}/sitemap.xml`,
   };
 }

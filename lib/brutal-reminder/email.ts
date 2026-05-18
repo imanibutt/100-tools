@@ -1,8 +1,10 @@
+import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import { escapeHtml, getPreviewText, getReminderSubject } from "./content";
 import type { CheckinResponse, ReminderRecord } from "./types";
 
 let resend: Resend | null = null;
+let smtpTransport: ReturnType<typeof nodemailer.createTransport> | null = null;
 
 function getResend() {
   const apiKey = process.env.RESEND_API_KEY;
@@ -15,6 +17,31 @@ function getResend() {
   }
 
   return resend;
+}
+
+function getEmailProvider() {
+  return (process.env.EMAIL_PROVIDER || "resend").toLowerCase();
+}
+
+function getSmtpTransport() {
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+
+  if (!user || !pass) {
+    return null;
+  }
+
+  if (!smtpTransport) {
+    smtpTransport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user,
+        pass,
+      },
+    });
+  }
+
+  return smtpTransport;
 }
 
 function baseUrl() {
@@ -115,12 +142,31 @@ export async function sendReminderEmail(
   reminder: Pick<ReminderRecord, "email" | "goal" | "first_step" | "excuse" | "tone">,
   tokens: { checkin: string; pause: string; unsubscribe: string },
 ) {
+  const from = process.env.EMAIL_FROM || process.env.BRUTAL_REMINDER_FROM_EMAIL || "Brutal Reminder <reminders@100tools.pk>";
+  const provider = getEmailProvider();
+
+  if (provider === "gmail") {
+    const transport = getSmtpTransport();
+    if (!transport) {
+      throw new Error("Gmail SMTP is not configured.");
+    }
+
+    const result = await transport.sendMail({
+      from,
+      to: reminder.email,
+      subject: getReminderSubject(reminder.tone),
+      html: buildReminderEmailHtml(reminder, tokens),
+      text: buildReminderEmailText(reminder),
+    });
+
+    return { skipped: false, id: result.messageId ?? null };
+  }
+
   const client = getResend();
   if (!client) {
     return { skipped: true, id: null };
   }
 
-  const from = process.env.BRUTAL_REMINDER_FROM_EMAIL || "Brutal Reminder <reminders@100tools.pk>";
   const result = await client.emails.send({
     from,
     to: reminder.email,
@@ -186,12 +232,40 @@ export async function sendWelcomeEmail(
   reminder: Pick<ReminderRecord, "email" | "goal" | "first_step">,
   tokens: { pause: string; unsubscribe: string },
 ) {
+  const from = process.env.EMAIL_FROM || process.env.BRUTAL_REMINDER_FROM_EMAIL || "Brutal Reminder <reminders@100tools.pk>";
+  const provider = getEmailProvider();
+
+  if (provider === "gmail") {
+    const transport = getSmtpTransport();
+    if (!transport) {
+      throw new Error("Gmail SMTP is not configured.");
+    }
+
+    const result = await transport.sendMail({
+      from,
+      to: reminder.email,
+      subject: "You subscribed to Brutal Reminder",
+      html: buildWelcomeEmailHtml(reminder, tokens),
+      text: [
+        "Thanks for subscribing.",
+        "",
+        "I will send you a brutal reality check at the time you selected. You can ignore noise. You cannot escape me.",
+        "",
+        `Goal: ${reminder.goal}`,
+        `First scheduled task: ${reminder.first_step}`,
+        "",
+        "No action is needed from this email.",
+      ].join("\n"),
+    });
+
+    return { skipped: false, id: result.messageId ?? null };
+  }
+
   const client = getResend();
   if (!client) {
     return { skipped: true, id: null };
   }
 
-  const from = process.env.BRUTAL_REMINDER_FROM_EMAIL || "Brutal Reminder <reminders@100tools.pk>";
   const result = await client.emails.send({
     from,
     to: reminder.email,

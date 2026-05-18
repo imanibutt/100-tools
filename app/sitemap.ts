@@ -1,63 +1,37 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+import { getAllBlogPosts } from "@/lib/blog";
+import { getSiteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://100tools.pk';
+  const base = getSiteUrl();
   const now = new Date();
-
-  return [
-    {
-      url: `${base}/`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 1
-    },
-    {
-      url: `${base}/bedownloader`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.9
-    },
-    {
-      url: `${base}/behance-downloader`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6
-    },
-    {
-      url: `${base}/brutal-reminder`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.9
-    },
-    {
-      url: `${base}/brutal-reminder/privacy`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.3
-    },
-    {
-      url: `${base}/install`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.4
-    },
-    {
-      url: `${base}/terms`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.2
-    },
-    {
-      url: `${base}/privacy`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.2
-    },
-    {
-      url: `${base}/fair-use`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.2
-    }
+  const routes = [
+    "/",
+    "/about",
+    "/blog",
+    "/contact",
+    "/bedownloader",
+    "/behance-downloader",
+    "/brutal-reminder",
+    "/brutal-reminder/privacy",
+    "/privacy-policy",
+    "/terms",
+    "/cookie-policy",
   ];
+
+  const routeEntries: MetadataRoute.Sitemap = routes.map((route, index) => ({
+    url: `${base}${route}`,
+    lastModified: now,
+    changeFrequency: index === 0 ? "weekly" : "monthly",
+    priority: index === 0 ? 1 : route.includes("brutal-reminder") || route === "/bedownloader" ? 0.9 : 0.7,
+  }));
+
+  const blogEntries: MetadataRoute.Sitemap = getAllBlogPosts().map((post) => ({
+    url: `${base}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...routeEntries, ...blogEntries];
 }

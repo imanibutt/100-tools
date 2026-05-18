@@ -1,150 +1,186 @@
-'use client';
+import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { BlogCard } from "@/components/blog-card";
+import { SiteShell } from "@/components/site-shell";
+import { getAllBlogPosts } from "@/lib/blog";
 
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+const featuredPosts = getAllBlogPosts().slice(0, 3);
+
+export const metadata: Metadata = {
+  title: "100 Tools",
+  description:
+    "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "100 Tools",
+    description:
+      "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+    url: "/",
+    type: "website",
+  },
+};
 
 export default function Home() {
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!cardsRef.current) return;
-      const cards = cardsRef.current.getElementsByClassName('tool-card');
-      for (const card of cards as any) {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "100 Tools",
+    url: "/",
+    description:
+      "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+  };
 
   return (
-    <main className="tools-home fade-in">
-      <div className="tools-content">
-        <nav className="tools-nav" aria-label="100 Tools">
-          <Link href="/" className="tools-brand">
-            <img src="/logo-transparent.png" alt="100 Tools Logo" className="tools-brandmark" />
-            <span>100 Tools</span>
-          </Link>
-          <a
-            href="https://github.com/imanibutt/Bedownloader"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-secondary"
-            style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}
-          >
-            GitHub
-          </a>
-        </nav>
+    <SiteShell>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+      />
 
-        <section className="tools-hero">
-          <div className="hero-text">
-            <p className="tools-kicker">Build in public</p>
-            <h1 className="tools-title">Foundry for Creators</h1>
-            <p className="tools-subtitle">
-              We are building 100 high-performance utility tools for designers and developers. 
-              Vetted, open-source, and free forever.
+      <section className="home-hero">
+        <div className="home-copy">
+          <p className="site-kicker">Build in public</p>
+          <h1>100 Tools</h1>
+          <p className="home-lead">
+            A growing toolkit for creators, operators, and developers. Every product is built to
+            remove one real point of friction, not to add another dashboard.
+          </p>
+          <div className="home-actions">
+            <Link href="/brutal-reminder" className="btn btn-primary">
+              Open Brutal Reminder
+            </Link>
+            <Link href="/bedownloader" className="btn btn-secondary">
+              Open BeDownloader
+            </Link>
+            <Link href="/blog" className="btn btn-secondary">
+              Read the blog
+            </Link>
+          </div>
+          <div className="home-trust">
+            <span>Focused tools</span>
+            <span>Minimal UI</span>
+            <span>Privacy-first habits</span>
+            <span>Built in public</span>
+          </div>
+        </div>
+
+        <div className="home-visual">
+          <div className="home-image-wrap">
+            <Image
+              src="/hero.png"
+              alt="100 Tools cinematic hero"
+              fill
+              priority
+              sizes="(max-width: 900px) 100vw, 44vw"
+              className="home-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="site-section">
+        <div className="section-copy">
+          <p className="site-kicker">Featured tools</p>
+          <h2>Clear workflows. Small surfaces. No noise.</h2>
+          <p>
+            100 Tools is growing as a library of narrow, production-minded tools. The current live
+            releases focus on asset extraction and daily accountability.
+          </p>
+        </div>
+
+        <div className="feature-grid">
+          <article className="feature-card">
+            <span className="feature-tag">Live now</span>
+            <h3>BeDownloader</h3>
+            <p>
+              Download public Behance assets in original quality. Fast extraction, clean naming,
+              and predictable output for design research and reference work.
             </p>
-            <Link href="#collection" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
-              Explore All Tools
+            <Link href="/bedownloader" className="feature-link">
+              Open tool
             </Link>
-          </div>
-          
-          <div className="hero-visual">
-            <div className="visual-container">
-              <img src="/hero.png" alt="Foundry Visual" className="visual-image" />
-            </div>
-          </div>
-        </section>
+          </article>
 
-        <section className="tools-section" id="collection">
-          <h2 className="section-title">The Collection</h2>
-          <div className="tools-grid" ref={cardsRef}>
-            <Link href="/bedownloader" className="tool-card">
-              <div className="tool-card-head">
-                <div className="tool-icon" aria-hidden="true">
-                  <img src="/logo.svg" alt="" style={{ width: '34px', height: '34px' }} />
-                </div>
-                <div className="tool-card-tag">Released</div>
-              </div>
-              <h3>BeDownloader</h3>
-              <p>
-                Professional asset extraction for Behance. Grab original quality images, 
-                videos, and animations in seconds.
-              </p>
-              <div className="tool-link">
-                Open Application <span>→</span>
-              </div>
+          <article className="feature-card">
+            <span className="feature-tag">Live now</span>
+            <h3>Brutal Reminder</h3>
+            <p>
+              Turn a goal into one small action and get honest email check-ins with Done, Not yet,
+              Snooze, Pause, and Unsubscribe controls.
+            </p>
+            <Link href="/brutal-reminder" className="feature-link">
+              Open tool
             </Link>
+          </article>
 
-            <Link href="/brutal-reminder" className="tool-card">
-              <div className="tool-card-head">
-                <div className="tool-icon" aria-hidden="true">
-                  <img src="/symbol%20mark%202.png" alt="" style={{ width: '30px', height: '30px' }} />
-                </div>
-                <div className="tool-card-tag">Tool #2</div>
-              </div>
-              <h3>Brutal Reminder</h3>
-              <p>
-                Turn one big goal into one small daily action. Get privacy-first
-                accountability emails that ask if you actually did it.
-              </p>
-              <div className="tool-link">
-                Open Tool <span>→</span>
-              </div>
+          <article className="feature-card feature-card-muted">
+            <span className="feature-tag">Roadmap</span>
+            <h3>What comes next</h3>
+            <p>
+              Future releases will stay narrow and utility-first: creator workflow tools, extractors,
+              publishing helpers, and focused operator utilities.
+            </p>
+            <Link href="/about" className="feature-link">
+              See the direction
             </Link>
+          </article>
+        </div>
+      </section>
 
-            <div className="tool-card" style={{ opacity: 0.6, cursor: 'default' }}>
-              <div className="tool-card-head">
-                <div className="tool-icon">🎨</div>
-                <div className="tool-card-tag" style={{ color: '#94a3b8', background: 'rgba(148, 163, 184, 0.1)' }}>In Progress</div>
-              </div>
-              <h3>Dribbble Extractor</h3>
-              <p>
-                Advanced shot extraction with original resolution support. 
-                Coming soon to the foundry.
-              </p>
-              <div className="tool-link" style={{ color: '#475569' }}>
-                Coming Soon
-              </div>
-            </div>
+      <section className="site-section site-section-tight">
+        <div className="section-copy">
+          <p className="site-kicker">Build in public</p>
+          <h2>Trust comes from shipping, not from promises.</h2>
+          <p>
+            The goal is simple: keep releasing tools that are small enough to stay fast, useful
+            enough to earn repeat use, and transparent enough to improve in the open.
+          </p>
+        </div>
+        <div className="notes-grid">
+          <article className="note-card">
+            <h3>Useful over broad</h3>
+            <p>
+              Every tool is scoped around a specific job-to-be-done. That keeps interfaces lean and
+              makes product quality easier to maintain.
+            </p>
+          </article>
+          <article className="note-card">
+            <h3>Operational honesty</h3>
+            <p>
+              Shipping publicly means bugs, fixes, and improvements stay visible. The product gets
+              better because the work is real, not hidden behind launch theatre.
+            </p>
+          </article>
+          <article className="note-card">
+            <h3>SEO with substance</h3>
+            <p>
+              The site content is being expanded with practical guides, tool explainers, and policy
+              pages so growth comes from useful pages instead of thin search bait.
+            </p>
+          </article>
+        </div>
+      </section>
 
-            <div className="tool-card" style={{ opacity: 0.4, cursor: 'default' }}>
-              <div className="tool-card-head">
-                <div className="tool-icon">✨</div>
-                <div className="tool-card-tag" style={{ color: '#94a3b8', background: 'rgba(148, 163, 184, 0.1)' }}>Planned</div>
-              </div>
-              <h3>Asset Optimizer</h3>
-              <p>
-                Lossless compression for extracted assets. Prepare your files for production 
-                automatically.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <footer className="footer" style={{ marginTop: '160px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '60px' }}>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
-            <div>
-              <Link href="/" className="tools-brand" style={{ fontSize: '16px' }}>
-                <img src="/logo-transparent.png" alt="100 Tools Logo" className="tools-brandmark" style={{ width: '24px', height: '24px', background: 'transparent', boxShadow: 'none' }} />
-                <span>100 Tools</span>
-              </Link>
-              <p className="text-secondary text-sm mt-2">© {new Date().getFullYear()} Building in public.</p>
-            </div>
-            <div className="flex gap-8 text-sm">
-              <Link href="/terms" className="text-secondary hover:text-white transition-colors">Terms</Link>
-              <Link href="/privacy" className="text-secondary hover:text-white transition-colors">Privacy</Link>
-              <a href="https://github.com/imanibutt/Bedownloader" target="_blank" rel="noreferrer" className="text-secondary hover:text-white transition-colors">Source</a>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </main>
+      <section className="site-section">
+        <div className="section-copy">
+          <p className="site-kicker">Latest notes</p>
+          <h2>Practical writing for people who are still in the work.</h2>
+          <p>
+            The blog tracks accountability, productivity, AI tools, creator workflow, and what the
+            100 Tools roadmap is learning as it ships.
+          </p>
+        </div>
+        <div className="blog-grid">
+          {featuredPosts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
+    </SiteShell>
   );
 }
+

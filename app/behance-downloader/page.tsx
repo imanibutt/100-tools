@@ -180,9 +180,11 @@ export default function BehanceDownloaderPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>© {new Date().getFullYear()} BeDownloader</div>
             <div className="flex gap-4">
+              <Link href="/about" className="footer-link">About</Link>
+              <Link href="/contact" className="footer-link">Contact</Link>
               <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
-              <Link href="/fair-use" className="footer-link">Fair Use</Link>
+              <Link href="/privacy-policy" className="footer-link">Privacy</Link>
+              <Link href="/cookie-policy" className="footer-link">Cookies</Link>
             </div>
           </div>
         </footer>
