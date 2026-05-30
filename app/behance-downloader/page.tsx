@@ -86,21 +86,13 @@ export default function BehanceDownloaderPage() {
         <div className="seo-header">
           <Link href="/" className="brand-link">
             <div className="icon-container-sm">
-              <img src="/logo.png?v=2" alt="Logo" className="w-6 h-6 object-contain" />
+              <img src="/logo.svg" alt="BeDownloader" className="brandmark" />
             </div>
             <span className="text-xl font-bold tracking-tight">BeDownloader</span>
           </Link>
 
           <div className="seo-actions">
             <Link href="/bedownloader" className="btn btn-secondary">Open App</Link>
-            <a
-              href="https://github.com/imanibutt/Bedownloader"
-              target="_blank"
-              className="btn btn-secondary"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
           </div>
         </div>
 

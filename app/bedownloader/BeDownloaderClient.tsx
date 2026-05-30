@@ -35,7 +35,7 @@ export default function BeDownloaderClient() {
       <div className="hero-wrap">
         <nav className="brandbar">
           <Link href="/" className="brand-home no-underline">
-            <img src="/logo.png?v=2" alt="BeDownloader Logo" className="brandmark" />
+            <img src="/logo.svg" alt="BeDownloader Logo" className="brandmark" />
             <span className="brandname">BeDownloader</span>
           </Link>
           <div className="brand-actions">

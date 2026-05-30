@@ -2,22 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { BlogCard } from "@/components/blog-card";
-import { SiteShell } from "@/components/site-shell";
 import { getAllBlogPosts } from "@/lib/blog";
 
 const featuredPosts = getAllBlogPosts().slice(0, 3);
 
 export const metadata: Metadata = {
-  title: "100 Tools",
+  title: "100 Tools — Building AI Tools in Public",
   description:
-    "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+    "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "100 Tools",
-    description:
-      "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+    title: "100 Tools — Building AI Tools in Public",
+      description: "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
     url: "/",
     type: "website",
   },
@@ -30,157 +28,176 @@ export default function Home() {
     name: "100 Tools",
     url: "/",
     description:
-      "Focused tools for creators and developers. Explore BeDownloader, Brutal Reminder, the roadmap, and practical notes from building in public.",
+      "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
   };
 
   return (
-    <SiteShell>
+    <div className="tools-home">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
       />
 
-      <section className="home-hero">
-        <div className="home-copy">
-          <p className="site-kicker">Build in public</p>
-          <h1>100 Tools</h1>
-          <p className="home-lead">
-            A growing toolkit for creators, operators, and developers. Every product is built to
-            remove one real point of friction, not to add another dashboard.
-          </p>
-          <div className="home-actions">
-            <Link href="/brutal-reminder" className="btn btn-primary">
-              Open Brutal Reminder
-            </Link>
-            <Link href="/bedownloader" className="btn btn-secondary">
-              Open BeDownloader
-            </Link>
-            <Link href="/blog" className="btn btn-secondary">
-              Read the blog
-            </Link>
-          </div>
-          <div className="home-trust">
-            <span>Focused tools</span>
-            <span>Minimal UI</span>
-            <span>Privacy-first habits</span>
-            <span>Built in public</span>
-          </div>
-        </div>
-
-        <div className="home-visual">
-          <div className="home-image-wrap">
+      <div className="tools-content">
+        {/* Custom Premium Navbar */}
+        <header className="tools-nav">
+          <Link href="/" className="tools-brand">
             <Image
-              src="/hero.png"
-              alt="100 Tools cinematic hero"
-              fill
+              src="/logo.svg"
+              alt="100 Tools Logo"
+              width={36}
+              height={36}
               priority
-              sizes="(max-width: 900px) 100vw, 44vw"
-              className="home-image"
+              className="tools-brandmark"
             />
+            <span>100 Tools</span>
+          </Link>
+          <nav className="tools-nav-links" style={{display: "flex", gap: "16px"}}>
+                <Link href="/" className="tools-nav-link">Home</Link>
+                <Link href="/bedownloader" className="tools-nav-link">BeDownloader</Link>
+                <Link href="/brutal-reminder" className="tools-nav-link">Brutal Reminder</Link>
+                <Link href="/blog" className="tools-nav-link">Blog</Link>
+                <Link href="/about" className="tools-nav-link">About</Link>
+                <Link href="/contact" className="tools-nav-link">Contact</Link>
+              </nav>
+
+        </header>
+
+        {/* Premium Hero Section */}
+        <section className="tools-hero">
+          <div className="hero-text animate-fade-in">
+            <span className="tools-kicker">BUILDING 100 AI TOOLS IN PUBLIC</span>
+            <h1 className="tools-title">From Designer to Builder to Founder.</h1>
+            <p className="tools-subtitle">
+                I’m building 100 small AI-powered tools, one by one, to solve real problems, test real demand, and create useful digital products in public.
+              </p>
+            <div className="home-actions">
+                              <a href="/" className="btn btn-primary">Explore Tools</a>
+                <a href="/about" className="btn btn-secondary ml-4">Follow the Journey</a>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="site-section">
-        <div className="section-copy">
-          <p className="site-kicker">Featured tools</p>
-          <h2>Clear workflows. Small surfaces. No noise.</h2>
-          <p>
-            100 Tools is growing as a library of narrow, production-minded tools. The current live
-            releases focus on asset extraction and daily accountability.
-          </p>
-        </div>
+          {/* Hero visual removed for darker cinematic style */}
+        </section>
 
-        <div className="feature-grid">
-          <article className="feature-card">
-            <span className="feature-tag">Live now</span>
-            <h3>BeDownloader</h3>
-            <p>
-              Download public Behance assets in original quality. Fast extraction, clean naming,
-              and predictable output for design research and reference work.
-            </p>
-            <Link href="/bedownloader" className="feature-link">
-              Open tool
+        {/* Featured Tools Grid */}
+        <section id="tools" className="tools-section">
+          <h2 className="section-title">Clear workflows. Small surfaces. No noise.</h2>
+          <div className="tools-grid">
+            {/* Card 1: BeDownloader */}
+            <Link href="/bedownloader" className="tool-card">
+              <div className="tool-card-head">
+                <span className="tool-card-tag">Live now</span>
+                <div className="tool-icon">⚡</div>
+              </div>
+              <h3>BeDownloader</h3>
+              <p>
+                Download public Behance assets in original quality. Fast extraction, clean naming,
+                and predictable output for design research and reference work.
+              </p>
+              <div className="tool-link">
+                Open tool <span>&rarr;</span>
+              </div>
             </Link>
-          </article>
 
-          <article className="feature-card">
-            <span className="feature-tag">Live now</span>
-            <h3>Brutal Reminder</h3>
-            <p>
-              Turn a goal into one small action and get honest email check-ins with Done, Not yet,
-              Snooze, Pause, and Unsubscribe controls.
-            </p>
-            <Link href="/brutal-reminder" className="feature-link">
-              Open tool
+            {/* Card 2: Brutal Reminder */}
+            <Link href="/brutal-reminder" className="tool-card">
+              <div className="tool-card-head">
+                <span className="tool-card-tag">Live now</span>
+                <div className="tool-icon">⏰</div>
+              </div>
+              <h3>Brutal Reminder</h3>
+              <p>
+                Turn a goal into one small action and get honest email check-ins with Done, Not yet,
+                Snooze, Pause, and Unsubscribe controls.
+              </p>
+              <div className="tool-link">
+                Open tool <span>&rarr;</span>
+              </div>
             </Link>
-          </article>
 
-          <article className="feature-card feature-card-muted">
-            <span className="feature-tag">Roadmap</span>
-            <h3>What comes next</h3>
-            <p>
-              Future releases will stay narrow and utility-first: creator workflow tools, extractors,
-              publishing helpers, and focused operator utilities.
-            </p>
-            <Link href="/about" className="feature-link">
-              See the direction
+            {/* Card 3: Roadmap */}
+            <Link href="/about" className="tool-card">
+              <div className="tool-card-head">
+                <span
+                  className="tool-card-tag"
+                  style={{ color: "#94a3b8", background: "rgba(255, 255, 255, 0.05)" }}
+                >
+                  Roadmap
+                </span>
+                <div className="tool-icon">🚀</div>
+              </div>
+              <h3>What comes next</h3>
+              <p>
+                Future releases will stay narrow and utility-first: creator workflow tools, extractors,
+                publishing helpers, and focused operator utilities.
+              </p>
+              <div className="tool-link">
+                See the direction <span>&rarr;</span>
+              </div>
             </Link>
-          </article>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section className="site-section site-section-tight">
-        <div className="section-copy">
-          <p className="site-kicker">Build in public</p>
-          <h2>Trust comes from shipping, not from promises.</h2>
-          <p>
-            The goal is simple: keep releasing tools that are small enough to stay fast, useful
-            enough to earn repeat use, and transparent enough to improve in the open.
-          </p>
-        </div>
-        <div className="notes-grid">
-          <article className="note-card">
-            <h3>Useful over broad</h3>
-            <p>
-              Every tool is scoped around a specific job-to-be-done. That keeps interfaces lean and
-              makes product quality easier to maintain.
-            </p>
-          </article>
-          <article className="note-card">
-            <h3>Operational honesty</h3>
-            <p>
-              Shipping publicly means bugs, fixes, and improvements stay visible. The product gets
-              better because the work is real, not hidden behind launch theatre.
-            </p>
-          </article>
-          <article className="note-card">
-            <h3>SEO with substance</h3>
-            <p>
-              The site content is being expanded with practical guides, tool explainers, and policy
-              pages so growth comes from useful pages instead of thin search bait.
-            </p>
-          </article>
-        </div>
-      </section>
+        {/* Build in Public Section */}
+        <section className="tools-section">
+          <h2 className="section-title">Trust comes from shipping, not from promises.</h2>
+          <div className="tools-grid">
+            <div className="tool-card">
+              <div className="tool-icon">🎯</div>
+              <h3>Useful over broad</h3>
+              <p>
+                Every tool is scoped around a specific job-to-be-done. That keeps interfaces lean and
+                makes product quality easier to maintain.
+              </p>
+            </div>
+            <div className="tool-card">
+              <div className="tool-icon">📢</div>
+              <h3>Operational honesty</h3>
+              <p>
+                Shipping publicly means bugs, fixes, and improvements stay visible. The product gets
+                better because the work is real, not hidden behind launch theatre.
+              </p>
+            </div>
+            <div className="tool-card">
+              <div className="tool-icon">📈</div>
+              <h3>SEO with substance</h3>
+              <p>
+                The site content is being expanded with practical guides, tool explainers, and policy
+                pages so growth comes from useful pages instead of thin search bait.
+              </p>
+            </div>
+          </div>
+        </section>
 
-      <section className="site-section">
-        <div className="section-copy">
-          <p className="site-kicker">Latest notes</p>
-          <h2>Practical writing for people who are still in the work.</h2>
-          <p>
-            The blog tracks accountability, productivity, AI tools, creator workflow, and what the
-            100 Tools roadmap is learning as it ships.
-          </p>
-        </div>
-        <div className="blog-grid">
-          {featuredPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </section>
-    </SiteShell>
+        {/* Latest Notes Blog Grid */}
+        <section className="tools-section">
+          <h2 className="section-title">Practical writing for people who are still in the work.</h2>
+          <div className="tools-grid">
+            {featuredPosts.map((post) => (
+              <BlogCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </section>
+
+        {/* Custom Premium Footer */}
+        <footer className="footer mt-16 pb-10">
+          <div className="footer-top" />
+          <div className="site-footer-grid">
+            <p className="text-slate-400 text-sm">
+              100 Tools builds small, useful products for creators and operators.
+            </p>
+            <div className="site-footer-links">
+              <Link href="/about" className="footer-link">About</Link>
+              <Link href="/contact" className="footer-link">Contact</Link>
+              <Link href="/privacy-policy" className="footer-link">Privacy</Link>
+              <Link href="/terms" className="footer-link">Terms</Link>
+              <Link href="/cookie-policy" className="footer-link">Cookies</Link>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
   );
 }
-

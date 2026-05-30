@@ -169,7 +169,7 @@ function ExtractionContent() {
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
                     <Link href="/bedownloader" className="brandbutton no-underline">
-                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                        <img src="/logo.svg" alt="BeDownloader" className="brandmark" />
                         <span className="brandname">BeDownloader</span>
                     </Link>
                 </nav>
@@ -202,7 +202,7 @@ function ExtractionContent() {
             <div className="container section-padding text-center fade-in">
                 <nav className="topbar topbar-center">
                     <Link href="/bedownloader" className="brandbutton no-underline">
-                        <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                        <img src="/logo.svg" alt="BeDownloader" className="brandmark" />
                         <span className="brandname">BeDownloader</span>
                     </Link>
                 </nav>
@@ -222,7 +222,7 @@ function ExtractionContent() {
         <main className="container section-padding fade-in">
             <nav className="topbar">
                 <Link href="/bedownloader" className="brandbutton no-underline">
-                    <img src="/logo.png?v=2" alt="BeDownloader" className="brandmark" />
+                    <img src="/logo.svg" alt="BeDownloader" className="brandmark" />
                     <span className="brandname">BeDownloader</span>
                 </Link>
 
