@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import { escapeHtml, getPreviewText, getReminderSubject } from "./content";
 import type { CheckinResponse, ReminderRecord } from "./types";
+import { getSiteUrl } from "@/lib/site";
 
 let resend: Resend | null = null;
 let smtpTransport: ReturnType<typeof nodemailer.createTransport> | null = null;
@@ -45,15 +46,7 @@ function getSmtpTransport() {
 }
 
 function baseUrl() {
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL;
-  }
-
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-
-  return "http://localhost:3000";
+  return getSiteUrl();
 }
 
 function responseHref(token: string, response: CheckinResponse) {
