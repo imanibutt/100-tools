@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/behance-downloader",
     "/brutal-reminder",
     "/brutal-reminder/privacy",
+    "/ats-cv-maker",
     "/privacy-policy",
     "/terms",
     "/cookie-policy",
@@ -23,7 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${base}${route}`,
     lastModified: now,
     changeFrequency: index === 0 ? "weekly" : "monthly",
-    priority: index === 0 ? 1 : route.includes("brutal-reminder") || route === "/bedownloader" ? 0.9 : 0.7,
+    priority:
+      index === 0
+        ? 1
+        : route.includes("brutal-reminder") || route === "/bedownloader" || route === "/ats-cv-maker"
+        ? 0.9
+        : 0.7,
   }));
 
   const blogEntries: MetadataRoute.Sitemap = getAllBlogPosts().map((post) => ({

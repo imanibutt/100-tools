@@ -45,6 +45,7 @@ export default function Home() {
             <Link href="/" className="tools-nav-link">Home</Link>
             <Link href="/bedownloader" className="tools-nav-link">BeDownloader</Link>
             <Link href="/brutal-reminder" className="tools-nav-link">Brutal Reminder</Link>
+            <Link href="/ats-cv-maker" className="tools-nav-link">ATS CV Maker</Link>
             <Link href="/blog" className="tools-nav-link">Blog</Link>
             <Link href="/about" className="tools-nav-link">About</Link>
             <Link href="/contact" className="tools-nav-link">Contact</Link>
@@ -81,7 +82,7 @@ export default function Home() {
                   <span className="dashboard-eyebrow">100 Tools OS</span>
                   <strong>Product dashboard</strong>
                 </div>
-                <span className="dashboard-count">2 / 100 live</span>
+                <span className="dashboard-count">3 / 100 live</span>
               </div>
 
               <div className="dashboard-metrics" aria-hidden="true">
@@ -119,6 +120,20 @@ export default function Home() {
                   <span className="dashboard-tool-copy">
                     <strong>BeDownloader</strong>
                     <small>Extract public Behance assets for cleaner research.</small>
+                  </span>
+                </Link>
+
+                <Link href="/ats-cv-maker" className="dashboard-tool-card dashboard-tool-card-cv">
+                  <span className="dashboard-tool-number">Tool 03</span>
+                  <span className="dashboard-tool-icon dashboard-tool-icon-cv">
+                    <svg viewBox="0 0 32 32" aria-hidden="true">
+                      <rect x="7" y="5" width="18" height="22" rx="2" />
+                      <path d="M11 11h10M11 15h10M11 19h6" />
+                    </svg>
+                  </span>
+                  <span className="dashboard-tool-copy">
+                    <strong>ATS CV Maker</strong>
+                    <small>Free ATS-friendly CV builder with keyword match check.</small>
                   </span>
                 </Link>
               </div>
@@ -178,6 +193,27 @@ export default function Home() {
               </p>
               <div className="tool-link">
                 Open BeDownloader <span aria-hidden="true">&rarr;</span>
+              </div>
+            </Link>
+
+            <Link href="/ats-cv-maker" className="tool-card tool-card-cv">
+              <div className="tool-card-head">
+                <div className="tool-icon tool-icon-cv">
+                  <svg viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="7" y="5" width="18" height="22" rx="2" />
+                    <path d="M11 11h10M11 15h10M11 19h6" />
+                  </svg>
+                </div>
+                <span className="tool-card-tag">Live now</span>
+              </div>
+              <span className="tool-card-number">Tool 03</span>
+              <h3>ATS CV Maker</h3>
+              <p>
+                Build a clean, ATS-friendly CV for free. Standard sections,
+                keyword match checker, and PDF download — no hidden fees.
+              </p>
+              <div className="tool-link">
+                Open ATS CV Maker <span aria-hidden="true">&rarr;</span>
               </div>
             </Link>
           </div>
