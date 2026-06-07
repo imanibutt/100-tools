@@ -181,6 +181,236 @@ const emptyForm: FormData = {
   jobDescription: "",
 };
 
+/* ─── Printable CV document ─── */
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function buildPrintableHtml(data: FormData): string {
+  const contactItems = [
+    data.email,
+    data.phone,
+    data.location,
+    data.linkedin,
+    data.portfolio,
+  ]
+    .filter(Boolean)
+    .map((s) => `<span>${escapeHtml(s)}</span>`)
+    .join("");
+
+  const workSection = data.workEntries.some((w) => w.title || w.company)
+    ? `<section>
+        <h2>Work Experience</h2>
+        ${data.workEntries
+          .filter((w) => w.title || w.company)
+          .map((w) => {
+            const dateRange =
+              w.startDate || w.endDate
+                ? ` <span class="dates">${escapeHtml(
+                    formatDate(w.startDate)
+                  )} \u2013 ${escapeHtml(formatDate(w.endDate))}</span>`
+                : "";
+            const bullets = w.bullets
+              ? `<ul>${w.bullets
+                  .split("\n")
+                  .filter(Boolean)
+                  .map(
+                    (b) =>
+                      `<li>${escapeHtml(b.replace(/^[\-•]\s*/, ""))}</li>`
+                  )
+                  .join("")}</ul>`
+              : "";
+            return `<div class="entry">
+              <div class="entry-head"><strong>${escapeHtml(w.title)}${
+              w.company ? `, ${escapeHtml(w.company)}` : ""
+            }</strong>${dateRange}</div>
+              ${bullets}
+            </div>`;
+          })
+          .join("")}
+      </section>`
+    : "";
+
+  const eduSection = data.eduEntries.some((e) => e.degree || e.institution)
+    ? `<section>
+        <h2>Education</h2>
+        ${data.eduEntries
+          .filter((e) => e.degree || e.institution)
+          .map((e) => {
+            const dateRange =
+              e.startDate || e.endDate
+                ? ` <span class="dates">${escapeHtml(
+                    formatDate(e.startDate)
+                  )} \u2013 ${escapeHtml(formatDate(e.endDate))}</span>`
+                : "";
+            return `<div class="entry">
+              <div class="entry-head"><strong>${escapeHtml(e.degree)}${
+              e.institution ? `, ${escapeHtml(e.institution)}` : ""
+            }</strong>${dateRange}</div>
+            </div>`;
+          })
+          .join("")}
+      </section>`
+    : "";
+
+  const skillsSection = data.skills
+    ? `<section><h2>Skills</h2><p>${escapeHtml(data.skills)}</p></section>`
+    : "";
+
+  const certSection = data.certEntries.some((c) => c.name)
+    ? `<section>
+        <h2>Certifications</h2>
+        ${data.certEntries
+          .filter((c) => c.name)
+          .map((c) => {
+            return `<div class="entry"><strong>${escapeHtml(c.name)}</strong>${
+              c.issuer ? ` <span>\u2014 ${escapeHtml(c.issuer)}</span>` : ""
+            }${c.date ? ` <span class="dates">(${escapeHtml(c.date)})</span>` : ""}</div>`;
+          })
+          .join("")}
+      </section>`
+    : "";
+
+  const summarySection = data.summary
+    ? `<section><h2>Summary</h2><p>${escapeHtml(data.summary)}</p></section>`
+    : "";
+
+  const printableCss = `
+    @page { size: A4 portrait; margin: 14mm; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff !important;
+      color: #111827;
+      font-family: 'Times New Roman', Georgia, serif;
+      font-size: 11pt;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .doc {
+      max-width: 182mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .name {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 22pt;
+      font-weight: 800;
+      color: #111827;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.01em;
+    }
+    .contact {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 10pt;
+      color: #374151;
+      margin: 0 0 4px 0;
+    }
+    .contact span:not(:last-child)::after {
+      content: " \\2022 ";
+      color: #9ca3af;
+      margin: 0 2px;
+    }
+    .target {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 11pt;
+      font-style: italic;
+      color: #374151;
+      margin: 4px 0 14px 0;
+    }
+    section { margin: 14px 0 0 0; }
+    section h2 {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 10.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: #1f2937;
+      border-bottom: 1.25pt solid #1f2937;
+      padding-bottom: 2px;
+      margin: 0 0 6px 0;
+    }
+    section p { margin: 4px 0; }
+    .entry { margin: 8px 0 0 0; page-break-inside: avoid; break-inside: avoid; }
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 11pt;
+      color: #111827;
+    }
+    .entry-head strong { font-weight: 700; }
+    .dates {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 10pt;
+      color: #4b5563;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    ul {
+      margin: 4px 0 0 18px;
+      padding: 0;
+    }
+    ul li { margin: 0 0 2px 0; }
+    @media print {
+      html, body { background: #fff !important; }
+      .no-print { display: none !important; }
+    }
+  `;
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>${
+    data.fullName ? escapeHtml(data.fullName) + " - CV" : "CV"
+  }</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>${printableCss}</style>
+</head>
+<body>
+  <div class="no-print" style="position:fixed;top:12px;right:12px;z-index:9999;background:#111827;color:#fff;padding:8px 14px;border-radius:8px;font:600 12px Inter,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,0.25);">
+    Use your browser's "Save as PDF" to download.
+  </div>
+  <main class="doc">
+    ${data.fullName ? `<h1 class="name">${escapeHtml(data.fullName)}</h1>` : ""}
+    ${contactItems ? `<p class="contact">${contactItems}</p>` : ""}
+    ${
+      data.targetTitle
+        ? `<p class="target">${escapeHtml(data.targetTitle)}</p>`
+        : ""
+    }
+    ${summarySection}
+    ${workSection}
+    ${eduSection}
+    ${skillsSection}
+    ${certSection}
+  </main>
+  <script>
+    window.addEventListener('load', function () {
+      // Strip hint right before print dialog appears
+      setTimeout(function () {
+        var h = document.querySelector('.no-print');
+        if (h) h.style.display = 'none';
+      }, 50);
+    });
+  </script>
+</body>
+</html>`;
+}
+
 /* ─── Helpers ─── */
 function extractKeywords(text: string): string[] {
   const stopWords = new Set([
@@ -242,6 +472,9 @@ export default function AtsCvMakerClient() {
   const [copyMsg, setCopyMsg] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
+  const cvPreviewRef = useRef<HTMLDivElement>(null);
+  // cvPreviewRef is reserved for direct DOM access to the paper element
+  void cvPreviewRef;
 
   /* ─── Form updaters ─── */
   const setField = useCallback(
@@ -436,7 +669,24 @@ export default function AtsCvMakerClient() {
   };
 
   const handleDownloadPdf = () => {
-    window.print();
+    const html = buildPrintableHtml(form);
+    const printWindow = window.open("", "_blank", "width=900,height=1100");
+    if (!printWindow) {
+      alert("Please allow pop-ups to download your CV as PDF.");
+      return;
+    }
+    printWindow.document.open();
+    printWindow.document.write(html);
+    printWindow.document.close();
+    // Wait for content to render before invoking print
+    printWindow.addEventListener("load", () => {
+      try {
+        printWindow.focus();
+        printWindow.print();
+      } catch {
+        /* user can use browser print manually */
+      }
+    });
   };
 
   const handleClear = () => {
@@ -975,7 +1225,7 @@ export default function AtsCvMakerClient() {
             )}
 
             {/* CV Preview */}
-            <div className={styles.paper} id="cv-preview">
+            <div className={styles.paper} id="cv-preview" ref={cvPreviewRef}>
               {!hasContent && !showPreview ? (
                 <div className={styles.paperEmpty}>
                   <div className={styles.paperEmptyIcon}>

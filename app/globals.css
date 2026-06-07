@@ -2646,3 +2646,131 @@ select {
     min-height: 0 !important;
   }
 }
+
+/* Standalone printable CV window styling */
+.ats-cv-printable {
+  background: #fff;
+  color: #111827;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 11pt;
+  line-height: 1.45;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.ats-cv-printable .no-print {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9999;
+  background: #111827;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: 600 12px Inter, sans-serif;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ats-cv-printable .doc {
+  max-width: 182mm;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.ats-cv-printable .name {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 22pt;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.ats-cv-printable .contact {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 10pt;
+  color: #374151;
+  margin: 0 0 4px 0;
+}
+
+.ats-cv-printable .contact span:not(:last-child)::after {
+  content: " \2022 ";
+  color: #9ca3af;
+  margin: 0 2px;
+}
+
+.ats-cv-printable .target {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  font-style: italic;
+  color: #374151;
+  margin: 4px 0 14px 0;
+}
+
+.ats-cv-printable section {
+  margin: 14px 0 0 0;
+}
+
+.ats-cv-printable section h2 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 10.5pt;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: #1f2937;
+  border-bottom: 1.25pt solid #1f2937;
+  padding-bottom: 2px;
+  margin: 0 0 6px 0;
+}
+
+.ats-cv-printable section p {
+  margin: 4px 0;
+}
+
+.ats-cv-printable .entry {
+  margin: 8px 0 0 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.ats-cv-printable .entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  color: #111827;
+}
+
+.ats-cv-printable .entry-head strong {
+  font-weight: 700;
+}
+
+.ats-cv-printable .dates {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 10pt;
+  color: #4b5563;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ats-cv-printable ul {
+  margin: 4px 0 0 18px;
+  padding: 0;
+}
+
+.ats-cv-printable ul li {
+  margin: 0 0 2px 0;
+}
+
+@media print {
+  .ats-cv-printable {
+    margin: 0;
+    padding: 0;
+  }
+  .ats-cv-printable .no-print {
+    display: none !important;
+  }
+}
