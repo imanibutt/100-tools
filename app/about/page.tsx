@@ -19,46 +19,57 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <SiteShell compact>
-      <section className="doc-hero">
-        <p className="site-kicker">About</p>
-        <h1>100 Tools is a small product studio with a narrow rule: ship useful software.</h1>
-        <p>
-          The studio is building a public catalogue of focused tools for creators, developers, and
-          operators. Each product is designed to solve one sharp problem with as little friction as
-          possible.
+      <section className="doc-hero doc-hero--centered">
+        <span className="section-eyebrow">About</span>
+        <h1 className="doc-hero-title">A small product lab. Useful tools. Built in public.</h1>
+        <p className="doc-hero-lede">
+          100 Tools is a founder-led product studio shipping focused AI tools for creators,
+          operators, and builders. Each tool solves one real problem and stays simple to use.
         </p>
       </section>
 
-      <section className="doc-body">
-        <article className="doc-section">
-          <h2>What gets built here</h2>
+      <section className="doc-body doc-body--grid">
+        <article className="doc-card">
+          <h2>What 100 Tools is</h2>
           <p>
-            100 Tools focuses on products that can stay compact and fast: extractors, reminder
-            systems, workflow accelerators, and practical utilities for repeat tasks.
+            A small catalogue of focused products. Not a suite, not a platform — just useful
+            tools that do one sharp job each.
           </p>
         </article>
 
-        <article className="doc-section">
-          <h2>Why it is public</h2>
+        <article className="doc-card">
+          <h2>How tools are built</h2>
           <p>
-            Building in public is useful when it produces better products, clearer trust, and faster
-            iteration. The goal is not performance marketing. The goal is to keep the work visible
-            enough that improvements remain grounded in reality.
+            Each tool starts with a real workflow, not a feature list. We ship the smallest
+            version that solves the problem, then improve it from real usage.
           </p>
         </article>
 
-        <article className="doc-section">
-          <h2>Current products</h2>
+        <article className="doc-card">
+          <h2>Why small tools</h2>
           <p>
-            BeDownloader helps with public Behance asset extraction. Brutal Reminder turns goals
-            into small daily actions with honest accountability emails. More focused tools will be
-            added as the catalogue grows.
-          </p>
-          <p>
-            Start with <Link href="/bedownloader">BeDownloader</Link> or{" "}
-            <Link href="/brutal-reminder">Brutal Reminder</Link>.
+            Small tools stay fast, readable, and honest. They do one thing well instead of ten
+            things badly. That is the whole reason this studio exists.
           </p>
         </article>
+
+        <article className="doc-card">
+          <h2>Built in public</h2>
+          <p>
+            The work is shared openly: what shipped, what failed, what changed. Public shipping
+            keeps the roadmap grounded in reality and builds real trust with users.
+          </p>
+        </article>
+      </section>
+
+      <section className="doc-cta">
+        <p>Try the current tools:</p>
+        <div className="doc-cta-row">
+          <Link href="/brutal-reminder" className="doc-cta-link">Brutal Reminder</Link>
+          <Link href="/bedownloader" className="doc-cta-link">BeDownloader</Link>
+          <Link href="/ats-cv-maker" className="doc-cta-link">ATS CV Maker</Link>
+          <Link href="/humanpass" className="doc-cta-link">HumanPass</Link>
+        </div>
       </section>
     </SiteShell>
   );

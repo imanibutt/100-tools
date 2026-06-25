@@ -1,0 +1,36 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brutal Reminder mark">
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 234) rotate(90) scale(292)">
+      <stop stop-color="#737373"/>
+      <stop offset="0.54" stop-color="#4B4B4B"/>
+      <stop offset="1" stop-color="#2F2F2F"/>
+    </radialGradient>
+    <filter id="redGlow" x="88" y="82" width="304" height="276" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#FF2B2B" flood-opacity="0.95"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+      <feGaussianBlur stdDeviation="24"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="markShadow" x="54" y="76" width="404" height="356" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="13" flood-color="#000000" flood-opacity="0.36"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <g filter="url(#markShadow)">
+    <g stroke="#0B1118" stroke-width="30" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M128 158H238"/>
+      <path d="M128 158V258"/>
+      <path d="M128 354V254"/>
+      <path d="M128 354H238"/>
+      <path d="M386 158H276"/>
+      <path d="M386 158V258"/>
+      <path d="M386 354V254"/>
+      <path d="M386 354H276"/>
+    </g>
+    <path d="M176 270L222 316L354 158" stroke="#FF2B2B" stroke-width="46" stroke-linecap="square" stroke-linejoin="miter" filter="url(#redGlow)"/>
+    <path d="M176 270L222 316L354 158" stroke="#FF3A33" stroke-width="28" stroke-linecap="square" stroke-linejoin="miter"/>
+  </g>
+</svg>

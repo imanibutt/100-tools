@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import AtsCvMakerClient from "./AtsCvMakerClient";
 
 export const metadata: Metadata = {
-  title: "Free ATS CV Maker",
+  title: "Free ATS CV Maker with AI Review",
   description:
-    "Build a clean ATS-friendly CV or resume for free. Create a simple recruiter-readable CV, check keyword match, and download your CV as PDF.",
+    "Build a clean ATS-friendly CV for free. Get an AI ATS review with section-by-section suggestions you can preview and apply to your form. Download as PDF.",
   alternates: {
     canonical: "/ats-cv-maker",
   },
   openGraph: {
-    title: "Free ATS CV Maker | 100 Tools",
+    title: "Free ATS CV Maker with AI Review | 100 Tools",
     description:
-      "Build a clean ATS-friendly CV or resume for free. Create a simple recruiter-readable CV, check keyword match, and download your CV as PDF.",
+      "Build a clean ATS-friendly CV for free. Get an AI ATS review with section-by-section suggestions you can preview and apply to your form. Download as PDF.",
     url: "/ats-cv-maker",
     type: "website",
   },

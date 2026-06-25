@@ -3,6 +3,9 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { TopNav } from '@/components/top-nav';
+import { ProductMark } from '@/components/product-icons';
+import { SiteFooter } from '@/components/site-footer';
 
 function isLikelyBehanceUrl(input: string) {
   try {
@@ -31,22 +34,17 @@ export default function BeDownloaderClient() {
   };
 
   return (
-    <main className="container section-padding fade-in bedownloader-page">
+    <>
+      <TopNav activeHref="/bedownloader" variant="centered" />
+      <main className="container section-padding fade-in bedownloader-page hero-atmos hero-atmos--cyan">
       <div className="hero-wrap">
-        <nav className="brandbar">
-          <Link href="/" className="brand-home no-underline">
-            <img src="/logo.svg" alt="BeDownloader Logo" className="brandmark" />
-            <span className="brandname">BeDownloader</span>
-          </Link>
-          <div className="brand-actions">
-            <span className="pill">Tool #1</span>
-            <Link href="/" className="text-secondary text-sm hover:text-white transition-colors">100 Tools Hub</Link>
+        <section className="tool-hero">
+          <div className="tool-hero-lockup">
+            <ProductMark accent="download" size="md" />
+            <span className="tool-status-pill">Live</span>
           </div>
-        </nav>
-
-        <section className="hero">
-          <h1 className="hero-title">Download Behance assets in original quality</h1>
-          <p className="hero-subtitle">
+          <h1 className="tool-hero-title">Download Behance assets in original quality</h1>
+          <p className="tool-hero-lede">
             Paste a public Behance project URL and extract images (and videos) in seconds — no login.
           </p>
 
@@ -131,10 +129,8 @@ export default function BeDownloaderClient() {
         </section>
       </div>
 
-      <footer className="footer">
-        <div className="footer-top" />
-        <p className="text-secondary footer-copy">&copy; {new Date().getFullYear()} BeDownloader. Made for designers.</p>
-      </footer>
+      <SiteFooter />
     </main>
+    </>
   );
 }

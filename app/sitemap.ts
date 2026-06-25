@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/brutal-reminder",
     "/brutal-reminder/privacy",
     "/ats-cv-maker",
+    "/humanpass",
     "/privacy-policy",
     "/terms",
     "/cookie-policy",
@@ -27,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       index === 0
         ? 1
-        : route.includes("brutal-reminder") || route === "/bedownloader" || route === "/ats-cv-maker"
+        : route.includes("brutal-reminder") || route === "/bedownloader" || route === "/ats-cv-maker" || route === "/humanpass"
         ? 0.9
         : 0.7,
   }));

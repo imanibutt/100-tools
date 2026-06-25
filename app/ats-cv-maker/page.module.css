@@ -16,18 +16,19 @@
 /* ─── Hero ─── */
 .hero {
   text-align: center;
-  padding: 56px 0 36px;
+  padding: 110px 0 36px;
   max-width: 880px;
   margin: 0 auto;
 }
 
 .title {
-  font-size: clamp(38px, 6vw, 64px);
+  font-size: clamp(34px, 5.4vw, 60px);
   font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -0.05em;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
   margin-bottom: 18px;
   color: #fff;
+  text-wrap: balance;
 }
 
 .textGradientGreen {
@@ -402,6 +403,7 @@
   padding: 48px 52px;
   min-height: 1160px;
   aspect-ratio: 210 / 297;
+  max-height: min(1160px, calc(100vh - 240px));
   box-shadow:
     0 18px 50px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.04);
@@ -796,4 +798,966 @@
   }
 }
 
+/* ─── Hero pill (replaces bare tools-kicker) ─── */
+.heroPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c7d2fe;
+  margin-bottom: 18px;
+}
+
+.heroPill svg {
+  color: #a5b4fc;
+}
+
+/* ─── AI Hero Card (full-width, premium, above the form/preview grid) ─── */
+.aiHeroCard {
+  position: relative;
+  margin: 0 0 28px 0;
+  padding: 28px;
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(99, 102, 241, 0.12) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgba(139, 92, 246, 0.08) 0%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(0, 0, 0, 0.18) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.aiHeroHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 22px;
+}
+
+.aiHeroCopy {
+  min-width: 0;
+}
+
+.aiHeroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.aiHeroTitle {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.aiHeroLede {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  max-width: 620px;
+}
+
+.aiHeroSteps {
+  display: flex;
+  gap: 18px;
+  flex: 0 0 auto;
+}
+
+.aiStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.aiStepNum {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.18);
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  color: #c7d2fe;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.aiStepTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.aiStepDesc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Empty state (paste textarea + buttons) */
+.aiHeroForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.aiHeroLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.aiHeroTextarea {
+  width: 100%;
+  min-height: 130px;
+  max-height: 280px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aiHeroTextarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.aiHeroTextarea:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.aiHeroActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.aiHeroMeta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.aiHeroRetry {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* AI Review Panel (rendered inside aiHeroCard after a review) */
+.aiPanel {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.aiPanelTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Empty preview paper: tighten + add tips list ─── */
+.paper:has(.paperEmpty) {
+  min-height: auto;
+  aspect-ratio: auto;
+  padding: 28px 24px;
+  font-family: var(--font-sans, Inter, sans-serif);
+  color: #1c1c1e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.paperEmpty {
+  padding: 8px 0;
+  text-align: left;
+  color: rgba(60, 60, 67, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  min-height: 240px;
+}
+
+.paperEmptyIcon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+  color: #c7c7cc;
+  align-self: center;
+}
+
+.paperEmptyIcon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.paperEmptyTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c1c1e;
+  margin: 0;
+  text-align: center;
+}
+
+.paperEmptySub {
+  font-size: 12px;
+  color: rgba(60, 60, 67, 0.65);
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.paperTips {
+  list-style: none;
+  margin: 0;
+  padding: 12px 14px;
+  background: rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(60, 60, 67, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.paperTips li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.paperTips li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  background: #6366f1;
+  border-radius: 50%;
+}
+
+.paperTips strong {
+  color: #1c1c1e;
+  font-weight: 600;
+}
+
+/* ─── Mobile breakpoints ─── */
+@media (max-width: 960px) {
+  .aiHeroHead {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .aiHeroSteps {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .aiHeroTitle {
+    font-size: 22px;
+  }
+  .aiHeroLede {
+    font-size: 13px;
+  }
+  .aiHeroCard {
+    padding: 20px;
+  }
+  .aiHeroTextarea {
+    min-height: 110px;
+  }
+}
+
+@media (max-width: 640px) {
+  .aiHeroSteps {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .aiHeroActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .aiHeroActions .btn,
+  .aiHeroActions .btnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+  .aiHeroMeta {
+    text-align: center;
+  }
+  .aiHeroCard {
+    padding: 18px;
+    border-radius: 12px;
+  }
+  .aiHeroTitle {
+    font-size: 20px;
+  }
+}
+
+/* ─── Layout polish: tighter hero on mobile ─── */
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 8px;
+  }
+  .hero .trust {
+    gap: 6px;
+  }
+  .hero .trust span {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .layout {
+    gap: 20px;
+  }
+}
+
 /* Print: render only the CV paper (print rules live in globals.css) */
+
+/* ─── AI Review Panel ─── */
+.aiPanel {
+  margin-top: 32px;
+  padding: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(99, 102, 241, 0.08) 0%,
+    rgba(99, 102, 241, 0.02) 100%
+  );
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 14px;
+  position: relative;
+}
+
+.aiPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.aiPanelHeader .sectionTitle {
+  margin-bottom: 0;
+}
+
+.aiDismiss {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.aiDismiss:hover,
+.aiDismiss:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.24);
+  outline: none;
+}
+
+.aiScoreRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.aiScore {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.aiScoreCompact {
+  width: 64px;
+  height: 64px;
+  border-width: 2px;
+}
+
+.aiScoreLow {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.aiScoreMid {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.aiScoreHigh {
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.aiScoreValue {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.aiScoreCompact .aiScoreValue {
+  font-size: 22px;
+}
+
+.aiScoreMax {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.aiScoreCopy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.aiScoreLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.aiScoreDesc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.aiReasons {
+  margin-bottom: 14px;
+}
+
+.aiSubheading {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px 0;
+}
+
+.aiSubheadingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.aiSubheadingRow .aiSubheading {
+  margin-bottom: 0;
+}
+
+.aiReasonList,
+.aiNoteList {
+  margin: 0;
+  padding-left: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.aiReasonList li,
+.aiNoteList li {
+  margin-bottom: 6px;
+}
+
+.aiReasonChips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+@media (min-width: 720px) {
+  .aiReasonChips {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.aiReasonChip {
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 2px solid rgba(99, 102, 241, 0.6);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.aiRoleFit {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.aiPill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.aiPillLow {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.aiPillMid {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.aiPillHigh {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.aiKeywords {
+  margin-top: 10px;
+}
+
+.aiKeywordsLabel {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 6px;
+}
+
+.aiKeywordTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.aiKeywordTag {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.aiKeywordsNote {
+  margin: 8px 0 0 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.aiSuggestions {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 1024px) {
+  .aiSuggestions {
+    grid-template-columns: 1fr 1fr;
+  }
+  .aiSuggestions > .aiFormatting {
+    grid-column: 1 / -1;
+  }
+}
+
+.aiSuggestionsHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.aiSuggestionsHead .aiSubheading {
+  margin-bottom: 0;
+}
+
+.aiApplyAll {
+  font-size: 12px;
+  padding: 6px 12px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  color: #c7d2fe;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.aiApplyAll:hover:not(:disabled),
+.aiApplyAll:focus-visible:not(:disabled) {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: #fff;
+  outline: none;
+}
+
+.aiApplyAll:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aiCard {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 0;
+}
+
+.aiCardApplied {
+  opacity: 0.6;
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.aiCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.aiCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.aiCardRationale {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.aiCardAppliedNote {
+  font-size: 12px;
+  color: #10b981;
+  margin: 0;
+  font-style: italic;
+}
+
+.aiCardActions {
+  flex: 0 0 auto;
+}
+
+.aiReviewBtn {
+  font-size: 12px;
+  padding: 5px 11px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.aiReviewBtn:hover,
+.aiReviewBtn:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.aiDiff {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.aiDiffGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .aiDiffGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aiDiffCol {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.aiDiffLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.aiDiffText {
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.aiDiffFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.aiFormatting {
+  margin-top: 0;
+  padding: 12px 14px;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.aiFormattingTitle {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #f59e0b;
+  margin: 0;
+  flex: 0 0 auto;
+  padding-top: 1px;
+}
+
+.aiFormattingList {
+  flex: 1 1 auto;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.75);
+  list-style: disc;
+  min-width: 0;
+}
+
+.aiFormattingList li {
+  margin-bottom: 3px;
+}
+
+.aiAppliedBanner {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.aiAppliedBannerCopy {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.aiAppliedBannerCopy strong {
+  color: #10b981;
+}
+
+.aiAutoFilled {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #c7d2fe;
+  margin-bottom: 12px;
+}
+
+.aiAutoFilled svg {
+  flex: 0 0 auto;
+  color: #a5b4fc;
+}
+
+.aiHeroHelper {
+  margin: -2px 0 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+  font-style: italic;
+}
+
+.aiError {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  color: #fca5a5;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.aiHint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
+.aiActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.btnSpinner {
+  animation: aiSpin 0.8s linear infinite;
+}
+
+@keyframes aiSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .aiScoreRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .aiPanel {
+    padding: 18px;
+  }
+}

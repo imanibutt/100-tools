@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getMetadataBase } from "@/lib/site";
 import Script from "next/script";
+import { VantaBackground } from "@/components/vanta-background";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -83,8 +84,9 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <div className="bg-mesh" />
-        <div className="relative z-10">
+        <VantaBackground />
+        <div className="global-vanta-overlay" aria-hidden />
+        <div className="page-shell">
           {children}
         </div>
       </body>

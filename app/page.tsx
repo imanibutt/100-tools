@@ -1,21 +1,31 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { TopNav } from "@/components/top-nav";
+import { ProductIcon } from "@/components/product-icons";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "100 Tools — Building AI Tools in Public",
+  title: "100 Tools — Useful AI tools, built in public.",
   description:
-    "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
+    "A founder-led collection of focused AI tools for creators, operators, and builders.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "100 Tools — Building AI Tools in Public",
+    title: "100 Tools — Useful AI tools, built in public.",
     description:
-      "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
+      "A founder-led collection of focused AI tools for creators, operators, and builders.",
     url: "/",
     type: "website",
   },
 };
+
+const TOOLS = [
+  { accent: "reminder" as const, href: "/brutal-reminder", name: "Brutal Reminder" },
+  { accent: "download" as const, href: "/bedownloader", name: "BeDownloader" },
+  { accent: "cv" as const, href: "/ats-cv-maker", name: "ATS CV Maker" },
+  { accent: "humanpass" as const, href: "/humanpass", name: "HumanPass" },
+];
 
 export default function Home() {
   const websiteLd = {
@@ -24,7 +34,7 @@ export default function Home() {
     name: "100 Tools",
     url: "/",
     description:
-      "Follow the journey of building 100 AI-powered tools in public, from BeDownloader to Brutal Reminder and beyond.",
+      "A founder-led collection of focused AI tools for creators, operators, and builders.",
   };
 
   return (
@@ -36,228 +46,56 @@ export default function Home() {
       />
 
       <div className="tools-content">
-        <header className="tools-nav">
-          <Link href="/" className="tools-brand">
-            <span className="tools-brandmark">100</span>
-            <span>100 Tools</span>
-          </Link>
-          <nav className="tools-nav-links" aria-label="Primary">
-            <Link href="/" className="tools-nav-link">Home</Link>
-            <Link href="/bedownloader" className="tools-nav-link">BeDownloader</Link>
-            <Link href="/brutal-reminder" className="tools-nav-link">Brutal Reminder</Link>
-            <Link href="/ats-cv-maker" className="tools-nav-link">ATS CV Maker</Link>
-            <Link href="/blog" className="tools-nav-link">Blog</Link>
-            <Link href="/about" className="tools-nav-link">About</Link>
-            <Link href="/contact" className="tools-nav-link">Contact</Link>
-          </nav>
-        </header>
+        <TopNav variant="centered" />
 
-        <section className="tools-hero">
-          <div className="hero-text animate-fade-in">
-            <span className="tools-kicker">BUILD IN PUBLIC</span>
-            <h1 className="tools-title">
-              <span className="text-gradient">Small tools</span> for real internet work.
+        {/* ─── HERO (full viewport, Vanta FOG in root layout, text floats above) ─── */}
+        <section className="home-hero">
+          <div className="home-hero-center">
+            <span className="home-hero-pill">
+              <span className="home-hero-pill-dot" aria-hidden />
+              100 tools in public
+            </span>
+            <h1 className="home-hero-title">
+              Useful AI tools, built in public.
             </h1>
-            <p className="tools-subtitle">
-              A growing collection of focused AI-powered products for creators,
-              operators, and builders. Each tool starts with one real problem and
-              ships in public.
+            <p className="home-hero-sub">
+              Small focused tools for creators, operators, and builders.
             </p>
-            <div className="home-actions">
-              <Link href="/#tools" className="btn btn-primary">Explore Tools</Link>
-              <Link href="/blog" className="btn btn-secondary">Follow the Journey</Link>
+            <div className="home-hero-cta-row">
+              <Link href="#tools" className="home-hero-cta">
+                Explore tools
+                <span className="arrow" aria-hidden>
+                  →
+                </span>
+              </Link>
             </div>
-            <div className="home-trust">
-              <span>Live tools</span>
-              <span>Public roadmap</span>
-              <span>Practical product notes</span>
-            </div>
-          </div>
-
-          <div className="hero-visual-dashboard" aria-label="100 Tools product dashboard">
-            <div className="dashboard-glow" />
-            <div className="dashboard-shell">
-              <div className="dashboard-topbar">
-                <div>
-                  <span className="dashboard-eyebrow">100 Tools OS</span>
-                  <strong>Product dashboard</strong>
-                </div>
-                <span className="dashboard-count">3 / 100 live</span>
-              </div>
-
-              <div className="dashboard-metrics" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
-
-              <div className="dashboard-tool-list">
-                <Link href="/brutal-reminder" className="dashboard-tool-card dashboard-tool-card-reminder">
-                  <span className="dashboard-tool-number">Tool 01</span>
-                  <span className="dashboard-tool-icon dashboard-tool-icon-reminder">
-                    <svg viewBox="0 0 32 32" aria-hidden="true">
-                      <path d="M7 8h8M7 8v7M7 24v-9M7 24h8M25 8h-8M25 8v7M25 24v-9M25 24h-8" />
-                      <path d="M11 17l4 4L24 10" />
-                    </svg>
-                  </span>
-                  <span className="dashboard-tool-copy">
-                    <strong>Brutal Reminder</strong>
-                    <small>Goal check-ins that make action hard to dodge.</small>
-                  </span>
-                </Link>
-
-                <Link href="/bedownloader" className="dashboard-tool-card dashboard-tool-card-download">
-                  <span className="dashboard-tool-number">Tool 02</span>
-                  <span className="dashboard-tool-icon dashboard-tool-icon-download">
-                    <svg viewBox="0 0 32 32" aria-hidden="true">
-                      <path d="M16 6v13" />
-                      <path d="M10 14l6 6 6-6" />
-                      <path d="M8 24h16" />
-                      <path d="M7 8h5M20 8h5" />
-                    </svg>
-                  </span>
-                  <span className="dashboard-tool-copy">
-                    <strong>BeDownloader</strong>
-                    <small>Extract public Behance assets for cleaner research.</small>
-                  </span>
-                </Link>
-
-                <Link href="/ats-cv-maker" className="dashboard-tool-card dashboard-tool-card-cv">
-                  <span className="dashboard-tool-number">Tool 03</span>
-                  <span className="dashboard-tool-icon dashboard-tool-icon-cv">
-                    <svg viewBox="0 0 32 32" aria-hidden="true">
-                      <rect x="7" y="5" width="18" height="22" rx="2" />
-                      <path d="M11 11h10M11 15h10M11 19h6" />
-                    </svg>
-                  </span>
-                  <span className="dashboard-tool-copy">
-                    <strong>ATS CV Maker</strong>
-                    <small>Free ATS-friendly CV builder with keyword match check.</small>
-                  </span>
-                </Link>
-              </div>
-
-              <div className="dashboard-footer">
-                <span>Founder-led shipping log</span>
-                <span>Next idea loading</span>
-              </div>
+            <div className="home-hero-scroll" aria-hidden>
+              <span>4 tools live</span>
+              <span className="home-hero-scroll-line" />
             </div>
           </div>
         </section>
 
-        <section id="tools" className="tools-section">
-          <div className="section-copy">
-            <span className="tools-kicker">TOOLS</span>
-            <h2 className="section-title">Useful products, shipped one at a time.</h2>
-          </div>
-          <div className="tools-grid">
-            <Link href="/brutal-reminder" className="tool-card tool-card-reminder">
-              <div className="tool-card-head">
-                <div className="tool-icon tool-icon-reminder">
-                  <svg viewBox="0 0 32 32" aria-hidden="true">
-                    <path d="M7 8h8M7 8v7M7 24v-9M7 24h8M25 8h-8M25 8v7M25 24v-9M25 24h-8" />
-                    <path d="M11 17l4 4L24 10" />
-                  </svg>
-                </div>
-                <span className="tool-card-tag">Live now</span>
-              </div>
-              <span className="tool-card-number">Tool 01</span>
-              <h3>Brutal Reminder</h3>
-              <p>
-                Turn a goal into one small action and get honest email check-ins with
-                Done, Not yet, Snooze, Pause, and Unsubscribe controls.
-              </p>
-              <div className="tool-link">
-                Open Brutal Reminder <span aria-hidden="true">&rarr;</span>
-              </div>
-            </Link>
-
-            <Link href="/bedownloader" className="tool-card tool-card-download">
-              <div className="tool-card-head">
-                <div className="tool-icon tool-icon-download">
-                  <svg viewBox="0 0 32 32" aria-hidden="true">
-                    <path d="M16 6v13" />
-                    <path d="M10 14l6 6 6-6" />
-                    <path d="M8 24h16" />
-                    <path d="M7 8h5M20 8h5" />
-                  </svg>
-                </div>
-                <span className="tool-card-tag">Live now</span>
-              </div>
-              <span className="tool-card-number">Tool 02</span>
-              <h3>BeDownloader</h3>
-              <p>
-                Download public Behance assets in original quality. Fast extraction,
-                clean naming, and predictable output for design reference work.
-              </p>
-              <div className="tool-link">
-                Open BeDownloader <span aria-hidden="true">&rarr;</span>
-              </div>
-            </Link>
-
-            <Link href="/ats-cv-maker" className="tool-card tool-card-cv">
-              <div className="tool-card-head">
-                <div className="tool-icon tool-icon-cv">
-                  <svg viewBox="0 0 32 32" aria-hidden="true">
-                    <rect x="7" y="5" width="18" height="22" rx="2" />
-                    <path d="M11 11h10M11 15h10M11 19h6" />
-                  </svg>
-                </div>
-                <span className="tool-card-tag">Live now</span>
-              </div>
-              <span className="tool-card-number">Tool 03</span>
-              <h3>ATS CV Maker</h3>
-              <p>
-                Build a clean, ATS-friendly CV for free. Standard sections,
-                keyword match checker, and PDF download — no hidden fees.
-              </p>
-              <div className="tool-link">
-                Open ATS CV Maker <span aria-hidden="true">&rarr;</span>
-              </div>
-            </Link>
+        {/* ─── TOOLS DOCK (below the fold, minimal) ─── */}
+        <section id="tools" className="home-tools-launcher">
+          <div className="home-tools-launcher-row">
+            {TOOLS.map((t) => (
+              <Link
+                key={t.href}
+                href={t.href}
+                className={"home-tool-chip home-tool-chip--" + t.accent}
+                aria-label={t.name}
+              >
+                <span className="home-tool-chip-icon">
+                  <ProductIcon accent={t.accent} />
+                </span>
+                <span className="home-tool-chip-name">{t.name}</span>
+              </Link>
+            ))}
           </div>
         </section>
 
-        <section className="tools-section build-public-section">
-          <div className="build-public-copy">
-            <span className="tools-kicker">BUILD IN PUBLIC</span>
-            <h2 className="section-title">The project is the product record.</h2>
-            <p>
-              100 Tools is being built in public so the useful parts stay visible:
-              what shipped, what broke, what got improved, and which ideas proved
-              worth turning into real products.
-            </p>
-          </div>
-          <div className="build-public-points">
-            <div>
-              <strong>Focused launches</strong>
-              <span>Small surfaces, clear jobs, fast feedback.</span>
-            </div>
-            <div>
-              <strong>Transparent notes</strong>
-              <span>Product thinking, fixes, and lessons on the blog.</span>
-            </div>
-            <div>
-              <strong>Compounding library</strong>
-              <span>A public collection that gets more useful with each release.</span>
-            </div>
-          </div>
-        </section>
-
-        <footer className="footer mt-16 pb-10">
-          <div className="footer-top" />
-          <div className="site-footer-grid">
-            <p className="text-slate-400 text-sm">
-              100 Tools builds small, useful products for creators and operators.
-            </p>
-            <div className="site-footer-links">
-              <Link href="/privacy-policy" className="footer-link">Privacy Policy</Link>
-              <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/cookie-policy" className="footer-link">Cookie Policy</Link>
-            </div>
-          </div>
-        </footer>
+        <SiteFooter />
       </div>
     </div>
   );

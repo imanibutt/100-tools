@@ -24,12 +24,12 @@ export default function BlogIndexPage() {
 
   return (
     <SiteShell compact>
-      <section className="doc-hero">
-        <p className="site-kicker">Blog</p>
-        <h1>Notes from shipping tools in public</h1>
-        <p>
-          This section covers accountability, creator workflow, AI tools, and what 100 Tools is
-          learning as the product catalogue expands.
+      <section className="doc-hero doc-hero--centered">
+        <span className="section-eyebrow">Blog</span>
+        <h1 className="doc-hero-title">Notes from shipping tools in public</h1>
+        <p className="doc-hero-lede">
+          Accountability, creator workflow, AI tools, and what 100 Tools is learning as the
+          product catalogue expands.
         </p>
       </section>
 
