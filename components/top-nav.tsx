@@ -22,9 +22,15 @@ type Tool = {
 
 const TOOLS: Tool[] = [
   {
+    href: "/invoice-maker",
+    name: "AI Invoice Maker",
+    description: "Turn a messy project description into a client-ready invoice.",
+    accent: "invoice",
+  },
+  {
     href: "/brutal-reminder",
     name: "Brutal Reminder",
-    description: "Daily accountability emails with Done / Not yet controls.",
+    description: "Daily accountability nudges with Done / Not yet controls.",
     accent: "reminder",
   },
   {

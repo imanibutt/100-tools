@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 const TOOLS = [
+  { accent: "invoice" as const, href: "/invoice-maker", name: "AI Invoice Maker" },
   { accent: "reminder" as const, href: "/brutal-reminder", name: "Brutal Reminder" },
   { accent: "download" as const, href: "/bedownloader", name: "BeDownloader" },
   { accent: "cv" as const, href: "/ats-cv-maker", name: "ATS CV Maker" },
@@ -70,7 +71,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="home-hero-scroll" aria-hidden>
-              <span>4 tools live</span>
+              <span>5 tools live</span>
               <span className="home-hero-scroll-line" />
             </div>
           </div>

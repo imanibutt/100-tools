@@ -1,4 +1,4 @@
-export type ProductAccent = "reminder" | "download" | "cv" | "humanpass";
+export type ProductAccent = "reminder" | "download" | "cv" | "humanpass" | "invoice";
 
 type ProductIconProps = {
   accent: ProductAccent;
@@ -23,6 +23,7 @@ const PRODUCT_NAME: Record<ProductAccent, string> = {
   humanpass: "HumanPass",
   download: "BeDownloader",
   reminder: "Brutal Reminder",
+  invoice: "AI Invoice Maker",
 };
 
 const PRODUCT_MARK_PX = { md: 48, lg: 64 } as const;
@@ -213,6 +214,96 @@ export function ProductIcon({ accent, className }: ProductIconProps) {
           <path
             d="M27.5 7 L28.4 8.7 L30.1 9.6 L28.4 10.5 L27.5 12.2 L26.6 10.5 L24.9 9.6 L26.6 8.7 Z"
             fill="#C4B5FD"
+          />
+        </svg>
+      );
+
+    case "invoice":
+      return (
+        <svg
+          viewBox="0 0 32 32"
+          className={"product-icon" + baseCls}
+          data-accent="invoice"
+          aria-hidden
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient
+              id="invAccent"
+              x1="20"
+              y1="20"
+              x2="26"
+              y2="26"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stopColor="#34D399" />
+              <stop offset="1" stopColor="#10B981" />
+            </linearGradient>
+          </defs>
+
+          {/* invoice sheet (white card) */}
+          <rect
+            x="6.5"
+            y="3.5"
+            width="16"
+            height="22"
+            rx="2.4"
+            fill="currentColor"
+            fillOpacity="0.06"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          {/* dark header strip */}
+          <path
+            d="M7 7 H22 V11 H7 Z"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            strokeLinejoin="round"
+          />
+          {/* INVOICE label */}
+          <path
+            d="M8.4 9.5 H14.5"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+          <circle cx="20" cy="9.2" r="0.9" fill="url(#invAccent)" />
+
+          {/* meta lines */}
+          <path
+            d="M9 13.5h5M9 15.5h7"
+            stroke="currentColor"
+            strokeOpacity="0.55"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+
+          {/* line item rows */}
+          <path
+            d="M9 18h6M9 20.4h7M9 22.8h5"
+            stroke="currentColor"
+            strokeOpacity="0.40"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+          />
+          {/* amount column */}
+          <path
+            d="M19.5 18h2.2M19.5 20.4h2.2M19.5 22.8h2.2"
+            stroke="currentColor"
+            strokeOpacity="0.55"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+          />
+
+          {/* total chip (green pill) */}
+          <rect x="17.4" y="23" width="5.6" height="2.4" rx="0.8" fill="url(#invAccent)" />
+
+          {/* AI sparkle in top-right */}
+          <path
+            d="M26 4.5 L26.9 6.7 L29.1 7.6 L26.9 8.5 L26 10.7 L25.1 8.5 L22.9 7.6 L25.1 6.7 Z"
+            fill="#34D399"
           />
         </svg>
       );

@@ -670,7 +670,8 @@
 .ats-cv-maker,
 .bedownloader-page,
 .brutalReminderPage,
-.humanpass-page {
+.humanpass-page,
+.invoice-maker-page {
   background-color: transparent !important;
   background-image: none !important;
 }
@@ -2150,6 +2151,13 @@ a {
   color: transparent;
 }
 
+.product-mark[data-accent="invoice"] .product-mark-text {
+  background: linear-gradient(120deg, #ecfdf5 0%, #6ee7b7 60%, #10b981 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .product-mark-symbol {
   display: inline-flex;
   align-items: center;
@@ -2209,6 +2217,17 @@ a {
     0 10px 30px rgba(0, 0, 0, 0.35),
     0 0 0 1px rgba(125, 211, 252, 0.12),
     0 0 32px rgba(14, 165, 233, 0.10);
+}
+
+.product-mark[data-accent="invoice"] .product-mark-symbol {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(110, 231, 183, 0.22), transparent 70%),
+    rgba(16, 185, 129, 0.06);
+  border-color: rgba(110, 231, 183, 0.32);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(110, 231, 183, 0.12),
+    0 0 32px rgba(16, 185, 129, 0.10);
 }
 
 .product-mark-symbol .product-icon,
@@ -5462,5 +5481,71 @@ select {
 
 .tools-home .tools-section:first-of-type {
   padding-top: 88px;
+}
+
+/* ========================================================================
+   Invoice Maker print styles (print only the invoice preview cleanly)
+   ======================================================================== */
+
+@media print {
+  body:has(.invoice-maker-page) .topnav,
+  body:has(.invoice-maker-page) header,
+  body:has(.invoice-maker-page) nav,
+  body:has(.invoice-maker-page) footer,
+  body:has(.invoice-maker-page) .tool-hero,
+  body:has(.invoice-maker-page) .aiSection,
+  body:has(.invoice-maker-page) .editorCard,
+  body:has(.invoice-maker-page) .copyCard,
+  body:has(.invoice-maker-page) .faq,
+  body:has(.invoice-maker-page) .phaseList,
+  body:has(.invoice-maker-page) .privacyNote,
+  body:has(.invoice-maker-page) .previewToolbar,
+  body:has(.invoice-maker-page) .previewStatusPill {
+    display: none !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page {
+    background: #ffffff !important;
+    padding: 0 !important;
+    min-height: auto !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page [class*="workspace"] {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    margin: 0 !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page [class*="previewCard"] {
+    border: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page [class*="previewWrap"] {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    color: #000 !important;
+    padding: 16px !important;
+  }
+
+  body:has(.invoice-maker-page) .invoice-maker-page [class*="previewBalanceRow"] {
+    background: #ECFDF5 !important;
+    color: #065F46 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 14mm;
+  }
 }
 
